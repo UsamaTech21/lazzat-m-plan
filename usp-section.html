@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="responsive.css">
 <style>
   :root {
     --bg: #fdfcfb;
@@ -80,7 +81,7 @@
     width: 6px; height: 1px; background: var(--accent); 
   }
 
-  .tbl-wrap { margin: 32px 0 48px; background: #fff; border-radius: 16px; border: 1px solid var(--border); overflow: hidden; box-shadow: var(--shadow); }
+  .tbl-wrap { margin: 32px 0 48px; background: #fff; border-radius: 16px; border: 1px solid var(--border); overflow-x: auto; -webkit-overflow-scrolling: touch; box-shadow: var(--shadow); }
   table { width: 100%; border-collapse: collapse; font-size: 14px; }
   th { background: #f9f8f6; color: var(--text); padding: 16px 24px; text-align: left; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--border); }
   td { padding: 16px 24px; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text-muted); }
@@ -94,7 +95,16 @@
   .icp-val { color: var(--text); flex: 1; }
 
   @media (max-width: 768px) {
+    .main { padding: 24px 16px 60px; }
     .icp-grid { grid-template-columns: 1fr; }
+    .h2 { font-size: 22px; }
+    .highlight { padding: 18px 20px; font-size: 15px; }
+    .icp-card { padding: 20px; }
+    .icp-row { flex-direction: column; gap: 4px; }
+    .icp-key { width: auto; }
+    .tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    th, td { padding: 12px 14px; font-size: 12px; }
+    .back-btn { font-size: 12px; padding: 8px 16px; }
   }
 </style>
 </head>

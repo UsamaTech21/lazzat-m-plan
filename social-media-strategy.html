@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="responsive.css">
 <style>
   :root {
     --bg: #ffffff;
@@ -162,15 +163,37 @@
 
   @media (max-width: 1000px) {
     .plat-grid, .pillar-grid, .ex-grid, .hook-grid { grid-template-columns: 1fr; }
-    .cal { grid-template-columns: repeat(3, 1fr); }
-    .tabs { padding: 0 20px; gap: 20px; overflow-x: auto; }
-    .hero { padding: 120px 20px 40px; }
-    .strat-table { display: block; overflow-x: auto; }
+    .cal { grid-template-columns: repeat(2, 1fr); }
+    .tabs { padding: 0 16px; gap: 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+    .tabs::-webkit-scrollbar { display: none; }
+    .tab { flex-shrink: 0; white-space: nowrap; font-size: 11px; padding: 18px 0; }
+    .hero { padding: 80px 20px 40px; }
+    .hero-title { font-size: 30px; }
+    .panel { padding: 48px 20px; }
+    .strat-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .plat-header, .plat-body, .pillar-top { padding: 24px; }
+    .plat-row { flex-direction: column; gap: 4px; }
+    .plat-key { width: auto; }
+    .brow { flex-wrap: wrap; gap: 12px; }
+    .blabel { width: 100%; }
+    .bamt { width: auto; text-align: left; }
+  }
+
+  @media (max-width: 600px) {
+    .cal { grid-template-columns: 1fr; }
+    .hero-title { font-size: 26px; }
+    .hero-sub { font-size: 14px; }
+    .panel { padding: 32px 16px; }
+    .sec-label { margin-bottom: 24px; letter-spacing: 2px; }
+    .info { padding: 20px; font-size: 14px; margin-bottom: 32px; }
+    .ex-card, .hook-card { padding: 20px; }
+    .freq-card { padding: 24px 16px; }
+    .freq-num { font-size: 32px; }
   }
 </style>
 </head>
-<body>
-<a href="index.html#s9" class="back-btn">← Go Back</a>
+<body class="has-fixed-back">
+<a href="index.html#s9" class="back-btn fixed-back">← Go Back</a>
 <div class="wrap">
 
 <!-- HERO -->

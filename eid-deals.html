@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="responsive.css">
 <style>
   :root {
     --bg: #fdfcfb;
@@ -327,7 +328,8 @@
     background: #fff;
     border-radius: 16px;
     border: 1px solid var(--border);
-    overflow: hidden;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
     box-shadow: var(--shadow);
     margin-bottom: 20px;
   }
@@ -385,13 +387,23 @@
   }
 
   @media (max-width: 600px) {
-    .main { padding: 40px 16px 80px; }
-    .h1 { font-size: 30px; }
-    .subtitle { font-size: 18px; }
-    .story-card { padding: 24px; }
-    .deal-card { padding: 24px; }
+    .main { padding: 32px 16px 60px; }
+    .h1 { font-size: 26px; }
+    .subtitle { font-size: 16px; margin-bottom: 24px; }
+    .story-card { padding: 20px; }
+    .story-highlight { font-size: 17px; }
+    .deal-card { padding: 20px; margin-bottom: 24px; }
     .deal-header { flex-direction: column; align-items: flex-start; }
+    .deal-title { font-size: 20px; }
+    .deal-badges { flex-wrap: wrap; }
     .icp-grid { grid-template-columns: 1fr; }
+    .icp-row { flex-direction: column; gap: 4px; }
+    .icp-key { width: auto; }
+    .tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .deals-header, .summary-section h2 { font-size: 22px; }
+    .highlight { padding: 16px 18px; font-size: 14px; }
+    th, td { padding: 10px 12px; font-size: 12px; }
+    .back-btn { font-size: 12px; padding: 8px 16px; margin-bottom: 24px; }
   }
 </style>
 </head>

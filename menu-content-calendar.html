@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="responsive.css">
 <style>
   :root {
     --bg: #fdfcfb;
@@ -82,8 +83,19 @@
 
 
   @media (max-width: 768px) {
+    .main-container { padding: 56px 16px 60px; }
     .grid { grid-template-columns: 1fr; }
-    .cal-header h2 { font-size: 26px; }
+    .cal-header h2 { font-size: 24px; }
+    .cal-header p { font-size: 14px; }
+    .legend { padding: 14px; gap: 8px; }
+    .legend-item { font-size: 10px; }
+    .card { padding: 18px; }
+    .card-title { font-size: 16px; }
+  }
+
+  @media (max-width: 480px) {
+    .back-btn.fixed-back { position: static; display: inline-flex; margin: 12px 0 0; }
+    .main-container { padding-top: 16px; }
   }
 
   /* BACK BTN */
@@ -96,9 +108,9 @@
   .back-btn:hover { color: var(--accent); transform: translateX(-4px); }
 </style>
 </head>
-<body>
+<body class="has-fixed-back">
 
-<a href="index.html#s9" class="back-btn">← Go Back</a>
+<a href="index.html#s9" class="back-btn fixed-back">← Go Back</a>
 
 <div class="main-container">
 

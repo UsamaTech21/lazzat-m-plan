@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="responsive.css">
 <style>
   html { scroll-behavior: smooth; }
   
@@ -153,7 +154,7 @@
   }
   
   /* TABLES */
-  .tbl-wrap { margin: 32px 0 48px; background: #fff; border-radius: 16px; border: 1px solid var(--border); overflow: hidden; box-shadow: var(--shadow); }
+  .tbl-wrap { margin: 32px 0 48px; background: #fff; border-radius: 16px; border: 1px solid var(--border); overflow-x: auto; -webkit-overflow-scrolling: touch; box-shadow: var(--shadow); }
   table { width: 100%; border-collapse: collapse; font-size: 14px; }
   th { background: #f9f8f6; color: var(--text); padding: 16px 24px; text-align: left; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--border); }
   td { padding: 16px 24px; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text-muted); }
@@ -236,18 +237,30 @@
     .toc-nav { display: none; }
     .mobile-header { display: flex; }
     .main { margin-left: 0; padding-top: 64px; }
-    .content-inner { padding: 0 32px 100px; }
+    .content-inner { padding: 0 24px 80px; }
     .cover .brand { font-size: 60px; }
     .icp-grid { grid-template-columns: 1fr; }
     .todo-stats { grid-template-columns: 1fr; }
+    .section { padding: 64px 0 40px; min-height: auto; }
   }
 
   @media (max-width: 600px) {
-    .content-inner { padding: 0 20px 60px; }
+    .content-inner { padding: 0 16px 60px; }
     .cover .brand { font-size: 40px; }
     .h2 { font-size: 22px; }
-    .sec-title { margin-bottom: 24px; }
-    .tbl-wrap { overflow-x: auto; }
+    .sec-title { margin-bottom: 24px; letter-spacing: 2px; }
+    .section { padding: 48px 0 32px; min-height: auto; }
+    .tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .icp-card { padding: 20px; }
+    .icp-row { flex-direction: column; gap: 4px; }
+    .icp-key { width: auto; }
+    .todo-cat-header { flex-wrap: wrap; padding: 14px 16px; }
+    .todo-cat-title { font-size: 14px; min-width: 0; }
+    .todo-task-row { padding: 14px 16px; flex-wrap: wrap; }
+    .todo-task-text { font-size: 13px; min-width: 0; word-break: break-word; }
+    .task-link { display: inline-block; margin: 8px 0 0; margin-left: 0 !important; }
+    .highlight, .info-box { padding: 16px 20px; font-size: 15px; }
+    th, td { padding: 10px 12px; font-size: 12px; }
   }
 
   /* CUSTOM SCROLLBAR */
