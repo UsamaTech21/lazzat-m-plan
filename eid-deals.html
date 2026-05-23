@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lazzat — Eid Special Deals Analysis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fdfcfb;
+    --text: #2d2d2d;
+    --text-muted: #666;
+    --accent: #b5341a;
+    --accent-soft: #f8e9e6;
+    --gold: #c8960c;
+    --gold-soft: #fcf6e8;
+    --border: #eceae6;
+    --shadow: 0 4px 25px rgba(0,0,0,0.03);
+    --shadow-hover: 0 10px 30px rgba(181, 52, 26, 0.06);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { 
+    font-family: 'Inter', -apple-system, sans-serif; 
+    background: var(--bg); 
+    color: var(--text); 
+    font-size: 16px; 
+    line-height: 1.8; 
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .main { max-width: 1000px; margin: 0 auto; padding: 60px 20px 100px; }
+  
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.2s;
+    margin-bottom: 40px;
+    box-shadow: var(--shadow);
+  }
+  .back-btn:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    transform: translateX(-4px);
+  }
+
+  .sec-title { 
+    font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 800; 
+    color: var(--accent); letter-spacing: 3px; text-transform: uppercase;
+    display: flex; align-items: center; gap: 12px; margin-bottom: 20px;
+  }
+  .h1 { 
+    font-family: 'Outfit', sans-serif; font-size: 38px; font-weight: 800; 
+    color: var(--text); margin-bottom: 8px; letter-spacing: -1px;
+    line-height: 1.2;
+  }
+  .subtitle {
+    font-family: 'Outfit', sans-serif;
+    color: var(--gold);
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 40px;
+    letter-spacing: -0.2px;
+  }
+
+  .h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 20px;
+    letter-spacing: -0.5px;
+  }
+
+  .highlight {
+    background: var(--accent-soft);
+    color: var(--accent);
+    padding: 24px 32px;
+    border-radius: 12px;
+    margin: 32px 0;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .icp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin: 32px 0;
+  }
+
+  .icp-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: var(--shadow);
+  }
+
+  .icp-header {
+    font-family: 'Outfit', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--text);
+  }
+
+  .icp-header span { color: var(--accent); opacity: 0.8; }
+
+  .icp-body { margin-top: 8px; }
+
+  .icp-row {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    padding: 10px 0;
+    font-size: 13px;
+  }
+
+  .icp-row:last-child { border-bottom: none; }
+
+  .icp-key {
+    color: var(--text-muted);
+    width: 100px;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 1px;
+  }
+
+  .icp-val { color: var(--text); flex: 1; }
+
+  /* Eid Story Card */
+  .story-card {
+    background: linear-gradient(145deg, #ffffff 0%, #faf8f5 100%);
+    border: 1px solid var(--border);
+    border-left: 5px solid var(--gold);
+    border-radius: 16px;
+    padding: 40px;
+    margin-bottom: 60px;
+    box-shadow: var(--shadow);
+  }
+  .story-card p {
+    font-size: 16px;
+    color: #4a4a4a;
+    margin-bottom: 20px;
+    line-height: 1.8;
+  }
+  .story-card p:last-child {
+    margin-bottom: 0;
+  }
+  .story-card strong {
+    color: var(--accent);
+  }
+  .story-highlight {
+    font-family: 'Outfit', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text);
+    border-bottom: 1.5px dashed var(--gold);
+    padding-bottom: 12px;
+    margin-bottom: 24px;
+    line-height: 1.4;
+  }
+
+  /* Deal Grid & Cards */
+  .deals-header {
+    font-family: 'Outfit', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 32px;
+    letter-spacing: -0.5px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 12px;
+  }
+
+  .deal-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 36px;
+    margin-bottom: 40px;
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+  }
+  .deal-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+    border-color: rgba(181, 52, 26, 0.2);
+  }
+
+  .deal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 16px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 20px;
+    margin-bottom: 24px;
+  }
+  .deal-title-area {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .deal-num {
+    font-family: 'Outfit', sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--accent);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .deal-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.5px;
+  }
+  .deal-badges {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .badge.capacity {
+    background: #f0f4ff;
+    color: #405ea5;
+  }
+  .badge.save {
+    background: #e8f5e9;
+    color: #27ae60;
+  }
+
+  .deal-content {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 40px;
+  }
+
+  .deal-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .includes-section h4 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+  }
+  .includes-list {
+    list-style: none;
+    margin-bottom: 24px;
+  }
+  .includes-list li {
+    padding: 10px 0 10px 30px;
+    position: relative;
+    font-size: 15px;
+    color: var(--text-muted);
+    border-bottom: 1px solid rgba(0,0,0,0.03);
+  }
+  .includes-list li:last-child {
+    border-bottom: none;
+  }
+  .includes-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 4px;
+    top: 8px;
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  .best-for-box {
+    background: var(--accent-soft);
+    color: var(--accent);
+    padding: 20px 24px;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1.6;
+    font-weight: 500;
+  }
+  .best-for-box strong {
+    color: var(--accent);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  /* Deal Tables */
+  .deal-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  .tbl-wrap {
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  th {
+    background: #f9f8f6;
+    color: var(--text);
+    padding: 14px 20px;
+    text-align: left;
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid var(--border);
+  }
+  td {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+    color: var(--text-muted);
+  }
+  tr:last-child td {
+    border-bottom: none;
+  }
+  .saving-row {
+    background: var(--gold-soft);
+    font-weight: 700;
+  }
+  .saving-row td {
+    color: var(--gold) !important;
+  }
+
+  /* Summary Table Specific */
+  .summary-section {
+    margin-top: 80px;
+  }
+  .summary-section h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    letter-spacing: -0.5px;
+  }
+
+  /* Responsive styling */
+  @media (max-width: 900px) {
+    .deal-content {
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .main { padding: 40px 16px 80px; }
+    .h1 { font-size: 30px; }
+    .subtitle { font-size: 18px; }
+    .story-card { padding: 24px; }
+    .deal-card { padding: 24px; }
+    .deal-header { flex-direction: column; align-items: flex-start; }
+    .icp-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="main">
+  <a href="index.html#s9" class="back-btn">← Back to Master Plan</a>
+
+  <div class="sec-title">Campaign Strategy & Analysis</div>
+
+  <h1 class="h1">Lazzat Eid Deals — Full Analysis</h1>
+  <div class="subtitle">"Eid Is For Everyone"</div>
+
+  <!-- Narrative Card -->
+  <div class="story-card">
+    <div class="story-highlight">"That's Brampton. That's how we grew up here. Eid was never just ours — we always shared it."</div>
+    
+    <p>Every Eid, I do the same thing. I call up everyone — and I mean everyone. My Jamaican neighbour. My Filipino coworker. My friend who has never in his life said Eid Mubarak but shows up every single year because he knows the food is going to be unreal.</p>
+    
+    <p>But every year there's that one moment. You're putting the order together and it hits you — wait, he doesn't eat beef. She doesn't eat pork. Is all of this actually halal? That back-and-forth used to take the joy right out of it.</p>
+    
+    <p>Then I found <strong>Lazzat</strong>.</p>
+    
+    <p>No pork. No beef. Lava stone cooked, no preservatives, no artificial sweeteners — and every allergen listed right there on the menu. I didn't have to call anyone to check. I just ordered. The food arrived and that was it. No questions, no issues — just everyone eating together the way Eid is supposed to feel.</p>
+    
+    <p>This Eid, Lazzat is doing something special for Brampton. Exclusive deals built specifically for our multiracial friend circles — because they know this city isn't one community, it's all of them. Check out their menu, place your order, and let Lazzat do what they do best — serving every single community at this table with the same love and the same effort.</p>
+    
+    <p><strong>No compromises. No one left out.</strong></p>
+    
+    <p style="font-size: 15px; color: var(--gold); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-top: 24px; display: flex; align-items: center; gap: 8px;">
+      🔗 Link in bio. Lazzat's Eid deals are live now
+    </p>
+  </div>
+
+  <div class="deals-header">Eid Gathering Packages</div>
+
+  <!-- DEAL 1 -->
+  <div class="deal-card">
+    <div class="deal-header">
+      <div class="deal-title-area">
+        <span class="deal-num">Deal 1</span>
+        <h3 class="deal-title">The Eid Circle Bundle</h3>
+      </div>
+      <div class="deal-badges">
+        <span class="badge capacity">For: 4 Adults</span>
+        <span class="badge save">Save ~$16 (17% Off)</span>
+      </div>
+    </div>
+    <div class="deal-content">
+      <div class="deal-left">
+        <div class="includes-section">
+          <h4>Includes</h4>
+          <ul class="includes-list">
+            <li>Chicken Breast Cubes — 3 Skewers ($17.99)</li>
+            <li>Lamb Cubes — 2 Skewers ($17.99)</li>
+            <li>Paneer or Soya Cubes — 2 Skewers ($13.99) <span style="font-size:12px; color:var(--accent); font-weight:500;">(for non-meat friends)</span></li>
+            <li>2 Salad scoops — Sweet Corn & Pepper + Lazzat Bean Salad ($11.98)</li>
+            <li>2 Signature Shakes — any flavor ($13.98)</li>
+          </ul>
+        </div>
+        <div class="best-for-box">
+          <strong>Best For</strong>
+          Mixed South Asian, Caribbean, Filipino friend group where everyone eats differently. No pork, no beef, plant-based option included — zero awkward conversations.
+        </div>
+      </div>
+      <div class="deal-right">
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Cost Metric</th>
+                <th>Regular</th>
+                <th>Deal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Total Items Value</strong></td>
+                <td>~$75.93</td>
+                <td><strong>$62.99</strong></td>
+              </tr>
+              <tr>
+                <td><strong>Per Person Cost</strong></td>
+                <td>~$18.98</td>
+                <td><strong>$15.75</strong></td>
+              </tr>
+              <tr class="saving-row">
+                <td><strong>Saving</strong></td>
+                <td>—</td>
+                <td>~$13 (17% off)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEAL 2 -->
+  <div class="deal-card">
+    <div class="deal-header">
+      <div class="deal-title-area">
+        <span class="deal-num">Deal 2</span>
+        <h3 class="deal-title">The Big Eid Table</h3>
+      </div>
+      <div class="deal-badges">
+        <span class="badge capacity">For: 4 Adults + 2 Kids</span>
+        <span class="badge save">Save ~$18 (21% Off)</span>
+      </div>
+    </div>
+    <div class="deal-content">
+      <div class="deal-left">
+        <div class="includes-section">
+          <h4>Includes</h4>
+          <ul class="includes-list">
+            <li>Whole Chicken Platter ($34.99) <span style="font-size:12px; color:var(--text-muted);">(serves 3–4)</span></li>
+            <li>Salmon Fish Platter ($29.99) <span style="font-size:12px; color:var(--text-muted);">(serves 3–4)</span></li>
+            <li>2 Kids Bowl Chicken + Kids Drink each ($20.96)</li>
+            <li>2 Salad scoops of choice ($11.98)</li>
+            <li>1 Tiramisu — Mango / Pistachio / Biscoff ($9.99)</li>
+          </ul>
+        </div>
+        <div class="best-for-box">
+          <strong>Best For</strong>
+          A Muslim family hosting non-Muslim neighbours or in-laws. Kids are covered separately so adults aren't splitting adult portions with them.
+        </div>
+      </div>
+      <div class="deal-right">
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Cost Metric</th>
+                <th>Regular</th>
+                <th>Deal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Total Items Value</strong></td>
+                <td>~$107.91</td>
+                <td><strong>$84.99</strong></td>
+              </tr>
+              <tr>
+                <td><strong>Per Adult Cost</strong></td>
+                <td>~$25.98</td>
+                <td><strong>$21.25</strong></td>
+              </tr>
+              <tr>
+                <td><strong>Per Kid Cost</strong></td>
+                <td>~$10.48</td>
+                <td><strong>$8.50</strong></td>
+              </tr>
+              <tr class="saving-row">
+                <td><strong>Saving</strong></td>
+                <td>—</td>
+                <td>~$23 (21% off)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEAL 3 -->
+  <div class="deal-card">
+    <div class="deal-header">
+      <div class="deal-title-area">
+        <span class="deal-num">Deal 3</span>
+        <h3 class="deal-title">The Neighbour Box</h3>
+      </div>
+      <div class="deal-badges">
+        <span class="badge capacity">For: 2 Adults</span>
+        <span class="badge save">Save ~$8 (19% Off)</span>
+      </div>
+    </div>
+    <div class="deal-content">
+      <div class="deal-left">
+        <div class="includes-section">
+          <h4>Includes</h4>
+          <ul class="includes-list">
+            <li>Chicken Breast Cubes — 2 Skewers ($15.99)</li>
+            <li>1 Salad scoop of choice ($5.99)</li>
+            <li>1 Signature Shake ($6.99)</li>
+            <li>1 Cheesecake slice — Oreo / Mango / Pistachio ($5.99)</li>
+          </ul>
+        </div>
+        <div class="best-for-box">
+          <strong>Best For</strong>
+          Dropping off at a coworker's, a neighbour's door, or a non-Muslim friend who's never experienced Eid food. Gifting format. Compact, shareable, memorable.
+        </div>
+      </div>
+      <div class="deal-right">
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Cost Metric</th>
+                <th>Regular</th>
+                <th>Deal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Total Items Value</strong></td>
+                <td>~$43.00</td>
+                <td><strong>$34.99</strong></td>
+              </tr>
+              <tr>
+                <td><strong>Per Person Cost</strong></td>
+                <td>~$21.50</td>
+                <td><strong>$17.50</strong></td>
+              </tr>
+              <tr class="saving-row">
+                <td><strong>Saving</strong></td>
+                <td>—</td>
+                <td>~$8 (19% off)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEAL 4 -->
+  <div class="deal-card">
+    <div class="deal-header">
+      <div class="deal-title-area">
+        <span class="deal-num">Deal 4</span>
+        <h3 class="deal-title">The Premium Eid Feast</h3>
+      </div>
+      <div class="deal-badges">
+        <span class="badge capacity">For: 6 Adults + 2 Kids</span>
+        <span class="badge save">Save ~$25 (33% Off)</span>
+      </div>
+    </div>
+    <div class="deal-content">
+      <div class="deal-left">
+        <div class="includes-section">
+          <h4>Includes</h4>
+          <ul class="includes-list">
+            <li>Whole Chicken Platter ($34.99)</li>
+            <li>Goat Cubes — 3 Skewers ($23.99)</li>
+            <li>Lamb Cubes — 2 Skewers ($17.99)</li>
+            <li>Soya Cubes — 2 Skewers ($13.99) <span style="font-size:12px; color:var(--accent); font-weight:500;">(plant-based for non-meat guests)</span></li>
+            <li>2 Kids Combos — Bowl + Drink ($19.98)</li>
+            <li>3 Salad scoops of choice ($17.97)</li>
+            <li>2 Fruit Blend Juices — Tropical Bliss / Berry Burst ($14.98)</li>
+            <li>2 Desserts of choice — Tiramisu or Cheesecake ($19.98)</li>
+          </ul>
+        </div>
+        <div class="best-for-box">
+          <strong>Best For</strong>
+          The full Eid gathering. Every dietary need covered — halal, plant-based, kids, non-beef guests. The one order that handles everything.
+        </div>
+      </div>
+      <div class="deal-right">
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Cost Metric</th>
+                <th>Regular</th>
+                <th>Deal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Total Items Value</strong></td>
+                <td>~$163.87</td>
+                <td><strong>$109.99</strong></td>
+              </tr>
+              <tr>
+                <td><strong>Per Adult Cost</strong></td>
+                <td>~$22.48</td>
+                <td><strong>$18.33</strong></td>
+              </tr>
+              <tr>
+                <td><strong>Per Kid Cost</strong></td>
+                <td>~$9.99</td>
+                <td><strong>$8.00</strong></td>
+              </tr>
+              <tr class="saving-row">
+                <td><strong>Saving</strong></td>
+                <td>—</td>
+                <td>~$54 (33% off)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEAL 5 -->
+  <div class="deal-card">
+    <div class="deal-header">
+      <div class="deal-title-area">
+        <span class="deal-num">Deal 5</span>
+        <h3 class="deal-title">The Kids Eid Box</h3>
+      </div>
+      <div class="deal-badges">
+        <span class="badge capacity">For: 2 Kids</span>
+        <span class="badge save">Save ~$3 (33% Off)</span>
+      </div>
+    </div>
+    <div class="deal-content">
+      <div class="deal-left">
+        <div class="includes-section">
+          <h4>Includes</h4>
+          <ul class="includes-list">
+            <li>2 Kids Bowl Chicken or Paneer ($13.98)</li>
+            <li>2 Kids Drinks — Real Fruit Shake ($6.98)</li>
+            <li>1 Cheesecake slice to share ($5.99)</li>
+          </ul>
+        </div>
+        <div class="best-for-box">
+          <strong>Best For</strong>
+          Add-on to any family order. Keeps kids fed without cutting into adult portions. Real fruit drinks, no soda, no artificial sweeteners — parents will appreciate that.
+        </div>
+      </div>
+      <div class="deal-right">
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Cost Metric</th>
+                <th>Regular</th>
+                <th>Deal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Total Items Value</strong></td>
+                <td>~$26.95</td>
+                <td><strong>$17.99</strong></td>
+              </tr>
+              <tr>
+                <td><strong>Per Kid Cost</strong></td>
+                <td>~$13.48</td>
+                <td><strong>$8.99</strong></td>
+              </tr>
+              <tr class="saving-row">
+                <td><strong>Saving</strong></td>
+                <td>—</td>
+                <td>~$9 (33% off)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEAL 6 -->
+  <div class="deal-card">
+    <div class="deal-header">
+      <div class="deal-title-area">
+        <span class="deal-num">Deal 6</span>
+        <h3 class="deal-title">The Sweet Eid Ending</h3>
+      </div>
+      <div class="deal-badges">
+        <span class="badge capacity">For: 4 People</span>
+        <span class="badge save">Save ~$7 (28% Off)</span>
+      </div>
+    </div>
+    <div class="deal-content">
+      <div class="deal-left">
+        <div class="includes-section">
+          <h4>Includes</h4>
+          <ul class="includes-list">
+            <li>2 Tiramisus of choice — Mango / Pistachio / Biscoff ($19.98)</li>
+            <li>2 Cheesecake slices of choice — Oreo / Mango / Pistachio ($11.98)</li>
+          </ul>
+        </div>
+        <div class="best-for-box">
+          <strong>Best For</strong>
+          Anyone who wants to finish the Eid meal properly. Can be added to any of the above deals. Universal — no one at any table will say no to tiramisu.
+        </div>
+      </div>
+      <div class="deal-right">
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Cost Metric</th>
+                <th>Regular</th>
+                <th>Deal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Total Items Value</strong></td>
+                <td>~$31.96</td>
+                <td><strong>$22.99</strong></td>
+              </tr>
+              <tr>
+                <td><strong>Per Person Cost</strong></td>
+                <td>~$7.99</td>
+                <td><strong>$5.75</strong></td>
+              </tr>
+              <tr class="saving-row">
+                <td><strong>Saving</strong></td>
+                <td>—</td>
+                <td>~$9 (28% off)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OVERALL DEAL SUMMARY -->
+  <div class="summary-section">
+    <h2>Overall Deal Summary</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Deal</th>
+            <th>People</th>
+            <th>Deal Price</th>
+            <th>Regular Value</th>
+            <th>Saving</th>
+            <th>Best For</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Eid Circle Bundle</strong></td>
+            <td>4 adults</td>
+            <td>$62.99</td>
+            <td>~$76</td>
+            <td>~$13</td>
+            <td>Mixed friend group</td>
+          </tr>
+          <tr>
+            <td><strong>Big Eid Table</strong></td>
+            <td>4 adults + 2 kids</td>
+            <td>$84.99</td>
+            <td>~$108</td>
+            <td>~$23</td>
+            <td>Family hosting neighbours</td>
+          </tr>
+          <tr>
+            <td><strong>Neighbour Box</strong></td>
+            <td>2 adults</td>
+            <td>$34.99</td>
+            <td>~$43</td>
+            <td>~$8</td>
+            <td>Gifting, drop-offs</td>
+          </tr>
+          <tr>
+            <td><strong>Premium Eid Feast</strong></td>
+            <td>6 adults + 2 kids</td>
+            <td>$109.99</td>
+            <td>~$164</td>
+            <td>~$54</td>
+            <td>Large multiracial gathering</td>
+          </tr>
+          <tr>
+            <td><strong>Kids Eid Box</strong></td>
+            <td>2 kids</td>
+            <td>$17.99</td>
+            <td>~$27</td>
+            <td>~$9</td>
+            <td>Add-on for families with kids</td>
+          </tr>
+          <tr>
+            <td><strong>Sweet Eid Ending</strong></td>
+            <td>4 people</td>
+            <td>$22.99</td>
+            <td>~$32</td>
+            <td>~$9</td>
+            <td>Dessert add-on for any order</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- AD BOOSTING & CAMPAIGN TARGETS -->
+  <div class="summary-section" style="margin-top: 80px;">
+    <div class="sec-title">Campaign Media Strategy</div>
+    <h2>Ad Boosting Budget & Launch Targets</h2>
+    <p>To maximize the reach of our <strong>Anchor Video Script</strong> ("Eid Is For Everyone"), we will run a hyper-targeted 7-day paid social media sprint starting on <strong>Day 1 of Eid</strong>. This campaign is optimized for high-impact local reach, video retention, and direct conversion to our special packages.</p>
+
+    <div class="highlight" style="margin: 24px 0;">
+      <strong>Anchor Video Script Integration</strong><br>
+      The visual narrative ("Every Eid, I call up everyone...") is designed as a high-retention 60-second video. This script is built specifically to address dietary hesitations and position Lazzat as the absolute resolution for multiracial gatherings in Brampton.
+    </div>
+
+    <div class="h2" style="margin-top: 40px;">2.1 — Paid Ad Budget Allocation</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Target Funnel / Segment</th>
+            <th>Platform</th>
+            <th>Daily Budget</th>
+            <th>7-Day Total</th>
+            <th>Primary Objective</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Cold Prospecting (70% Top-of-Funnel)</strong></td>
+            <td>Meta Ads (IG/FB Reels)</td>
+            <td>$100.00 CAD</td>
+            <td>$700.00 CAD</td>
+            <td>ThruPlays & Link Clicks (Landing Page Visits)</td>
+          </tr>
+          <tr>
+            <td><strong>Warm Retargeting (30% Bottom-of-Funnel)</strong></td>
+            <td>Meta Ads (IG/FB Stories)</td>
+            <td>$42.85 CAD</td>
+            <td>$300.00 CAD</td>
+            <td>Package Conversions & Reservations</td>
+          </tr>
+          <tr class="saving-row">
+            <td><strong>Total Eid Sprint Budget</strong></td>
+            <td>Meta + IG Network</td>
+            <td>$142.85 CAD</td>
+            <td><strong>$1,000.00 CAD</strong></td>
+            <td><strong>High-Velocity Local Domination</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="h2" style="margin-top: 40px;">2.2 — Ad Target Audiences (Ad Sets)</div>
+    <div class="icp-grid">
+      <div class="icp-card">
+        <div class="icp-header">Ad Set #1 — <span>The South Asian Core</span></div>
+        <div class="badge capacity" style="margin-bottom: 12px;">Cold Prospecting</div>
+        <div class="icp-body">
+          <div class="icp-row"><span class="icp-key">Target</span><span class="icp-val">Brampton + 8km radius, Ages 20–55</span></div>
+          <div class="icp-row"><span class="icp-key">Interests</span><span class="icp-val">Eid, Halal food, Biryani, Desi gatherings</span></div>
+          <div class="icp-row"><span class="icp-key">Visual</span><span class="icp-val">Anchor video + Close-up sizzle of Lamb & Goat skewers</span></div>
+          <div class="icp-row"><span class="icp-key">Budget</span><span class="icp-val">30% ($300 CAD)</span></div>
+        </div>
+      </div>
+      <div class="icp-card">
+        <div class="icp-header">Ad Set #2 — <span>The Multiracial Friend Circle</span></div>
+        <div class="badge capacity" style="margin-bottom: 12px;">Cold Prospecting</div>
+        <div class="icp-body">
+          <div class="icp-row"><span class="icp-key">Target</span><span class="icp-val">Brampton + 8km radius, Ages 20–40</span></div>
+          <div class="icp-row"><span class="icp-key">Interests</span><span class="icp-val">Caribbean food, Filipino food, BBQ, Socializing</span></div>
+          <div class="icp-row"><span class="icp-key">Visual</span><span class="icp-val">Anchor video focusing on the "Jamaican neighbour & Filipino coworker" lines</span></div>
+          <div class="icp-row"><span class="icp-key">Budget</span><span class="icp-val">30% ($300 CAD)</span></div>
+        </div>
+      </div>
+      <div class="icp-card">
+        <div class="icp-header">Ad Set #3 — <span>Hyperlocal Radius Domination</span></div>
+        <div class="badge capacity" style="margin-bottom: 12px;">Cold Prospecting</div>
+        <div class="icp-body">
+          <div class="icp-row"><span class="icp-key">Target</span><span class="icp-val">Brampton + 3km radius, Ages 18–45</span></div>
+          <div class="icp-row"><span class="icp-key">Interests</span><span class="icp-val">No interests (Open targeting), Local radius exploration</span></div>
+          <div class="icp-row"><span class="icp-key">Visual</span><span class="icp-val">Anchor video highlighting the Lazzat Brampton storefront & vibe</span></div>
+          <div class="icp-row"><span class="icp-key">Budget</span><span class="icp-val">10% ($100 CAD)</span></div>
+        </div>
+      </div>
+      <div class="icp-card">
+        <div class="icp-header">Ad Set #4 — <span>Custom Retargeting (Warm)</span></div>
+        <div class="badge save" style="margin-bottom: 12px;">Retargeting</div>
+        <div class="icp-body">
+          <div class="icp-row"><span class="icp-key">Target</span><span class="icp-val">IG/FB Engagements (Last 90 days), Web Visitors</span></div>
+          <div class="icp-row"><span class="icp-key">Interests</span><span class="icp-val">All previous viewers of 25%+ of the Anchor Video</span></div>
+          <div class="icp-row"><span class="icp-key">Visual</span><span class="icp-val">Deals slideshow carousel + strong FOMO copy ("Eid deals ending soon")</span></div>
+          <div class="icp-row"><span class="icp-key">Budget</span><span class="icp-val">30% ($300 CAD)</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="h2" style="margin-top: 40px;">2.3 — Ideal Launch Goals & KPI Benchmarks</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>KPI Category</th>
+            <th>Ideal Target Goal</th>
+            <th>Why it Matters / Context</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Unique Local Reach</strong></td>
+            <td>120,000+ Bramptonians</td>
+            <td>Ensures roughly 1 in 5 Brampton residents see our Eid message at least once.</td>
+          </tr>
+          <tr>
+            <td><strong>Video ThruPlays (15s+)</strong></td>
+            <td>20,000+ Completed Views</td>
+            <td>Confirms deep engagement with our "Eid Is For Everyone" multiracial message.</td>
+          </tr>
+          <tr>
+            <td><strong>Landing Page Views</strong></td>
+            <td>3,000+ Clicks to Menu</td>
+            <td>High-intent traffic actively reviewing the 6 Special Eid Packages.</td>
+          </tr>
+          <tr>
+            <td><strong>Conversions (Orders/Tables Booked)</strong></td>
+            <td>220+ Eid Packages Sold</td>
+            <td>Direct conversion goal, driven mostly by retargeting and weekend rushes.</td>
+          </tr>
+          <tr class="saving-row">
+            <td><strong>Target Return on Ad Spend (ROAS)</strong></td>
+            <td><strong>15x Direct ROAS</strong></td>
+            <td>Estimating ~$15,000 CAD in raw revenue from a $1,000 ad investment.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

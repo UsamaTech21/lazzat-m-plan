@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lazzat — Competitive Intelligence Matrix</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fdfcfb;
+    --text: #2d2d2d;
+    --text-muted: #666;
+    --accent: #b5341a;
+    --accent-soft: #f8e9e6;
+    --gold: #c8960c;
+    --gold-soft: #fbf5e6;
+    --border: #eceae6;
+    --sidebar-bg: #111;
+    --white: #ffffff;
+    --shadow: 0 4px 20px rgba(0,0,0,0.03);
+    
+    --red-pill: #fff5f5;
+    --red-text: #c92a2a;
+    --orange-pill: #fff9db;
+    --orange-text: #e67700;
+    --green-pill: #f4fce3;
+    --green-text: #5c940d;
+    --blue-pill: #e7f5ff;
+    --blue-text: #1971c2;
+    --purple-pill: #f3f0ff;
+    --purple-text: #6741d9;
+    --grey-text: #666;
+
+    /* Takeaways tab design tokens */
+    --color-text-primary: #2d2d2d;
+    --color-text-secondary: #666;
+    --color-text-tertiary: #999;
+    --color-background-primary: #ffffff;
+    --color-background-secondary: #f9f8f6;
+    --color-background-success: #f4fce3;
+    --color-background-danger: #fff5f5;
+    --color-background-info: #e7f5ff;
+    --color-background-warning: #fff9db;
+    --color-text-success: #5c940d;
+    --color-text-danger: #c92a2a;
+    --color-text-info: #1971c2;
+    --color-text-warning: #e67700;
+    --color-border-secondary: #ddd;
+    --color-border-tertiary: #eceae6;
+    --border-radius-lg: 16px;
+    --border-radius-md: 8px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { 
+    font-family: 'Inter', -apple-system, sans-serif; 
+    background: var(--bg); 
+    color: var(--text); 
+    font-size: 14px; 
+    line-height: 1.7; 
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar { 
+    position: fixed; top: 0; left: 0; width: 280px; height: 100vh; 
+    background: var(--sidebar-bg); color: #fff; 
+    padding: 60px 40px; z-index: 100;
+  }
+  .logo-tag { font-family: 'Outfit', sans-serif; font-size: 10px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin-bottom: 8px; font-weight: 700; }
+  .logo-name { font-family: 'Outfit', sans-serif; font-size: 28px; color: #fff; font-weight: 800; letter-spacing: 2px; line-height: 1; }
+  
+  .nav-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #444; margin-top: 60px; margin-bottom: 20px; font-weight: 700; }
+  .nav-item { color: #888; font-size: 12px; margin-bottom: 16px; display: block; text-decoration: none; font-weight: 500; transition: color 0.3s; }
+  .nav-item:hover { color: #fff; }
+  .nav-item.active { color: var(--gold); font-weight: 700; }
+
+  /* ── MAIN ── */
+  .main { max-width: 1400px; margin: 0 auto; padding: 100px 80px; min-height: 100vh; }
+
+  .header { margin-bottom: 80px; }
+  .eyebrow { font-family: 'Outfit', sans-serif; font-size: 12px; letter-spacing: 5px; color: var(--accent); text-transform: uppercase; margin-bottom: 16px; font-weight: 800; }
+  .title { font-family: 'Outfit', sans-serif; font-size: 48px; font-weight: 800; color: var(--text); line-height: 1.1; margin-bottom: 24px; letter-spacing: -1.5px; }
+  .meta { font-size: 14px; color: var(--text-muted); font-weight: 500; display: flex; gap: 24px; }
+
+  /* ── MATRIX TABLE ── */
+  .matrix-wrap { background: #fff; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; box-shadow: var(--shadow); margin-bottom: 80px; }
+  .matrix-scroll { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 1200px; }
+  th { background: #f9f8f6; color: var(--text); padding: 20px 24px; text-align: left; font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; border-bottom: 1px solid var(--border); }
+  td { padding: 20px 24px; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text-muted); line-height: 1.6; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #fdfcfb; }
+
+  .brand-name { font-family: 'Outfit', sans-serif; font-weight: 800; color: var(--text); font-size: 15px; }
+  .usp-text { font-size: 13px; color: var(--text-muted); font-weight: 400; max-width: 280px; }
+
+  .pill { display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+  .pill.explicit { background: var(--green-pill); color: var(--green-text); }
+  .pill.implicit { background: var(--blue-pill); color: var(--blue-text); }
+  .pill.emerging { background: var(--orange-pill); color: var(--orange-text); }
+  
+  .pill.highest { background: var(--red-pill); color: var(--red-text); }
+  .pill.high { background: var(--red-pill); color: var(--red-text); }
+  .pill.medium { background: var(--orange-pill); color: var(--orange-text); }
+
+  /* ── TAKEAWAYS ── */
+  .section-title { font-family: 'Outfit', sans-serif; font-size: 24px; font-weight: 700; color: var(--text); margin-bottom: 40px; display: flex; align-items: center; gap: 16px; }
+  .section-title span { width: 40px; height: 1px; background: var(--gold); }
+
+  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; margin-bottom: 80px; }
+  .takeaway-card { background: #fff; padding: 32px; border-radius: 20px; border: 1px solid var(--border); box-shadow: var(--shadow); position: relative; overflow: hidden; }
+  .takeaway-card::before { content: ""; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--gold); }
+  .takeaway-label { font-family: 'Outfit', sans-serif; font-size: 10px; font-weight: 800; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; display: block; }
+  .takeaway-title { font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 12px; }
+  .takeaway-list { list-style: none; }
+  .takeaway-list li { font-size: 14px; color: var(--text-muted); margin-bottom: 8px; display: flex; align-items: flex-start; gap: 10px; }
+  .takeaway-list li::before { content: "•"; color: var(--gold); font-weight: 800; }
+
+  /* ── UNIQUE COMBINATION ── */
+  .unique-box { background: var(--sidebar-bg); border-radius: 24px; padding: 60px; color: #fff; margin-bottom: 40px; position: relative; overflow: hidden; }
+  .unique-box .eyebrow { color: var(--gold); opacity: 0.8; }
+  .unique-box .title { color: #fff; font-size: 36px; margin-bottom: 32px; }
+  .unique-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+  .unique-item { border-left: 1px solid rgba(255,255,255,0.1); padding-left: 24px; }
+  .unique-item h4 { font-family: 'Outfit', sans-serif; font-size: 11px; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; }
+  .unique-item p { font-size: 15px; color: #999; font-weight: 500; }
+
+  /* ── SUMMARY CALLOUT ── */
+  .summary-callout { background: var(--accent-soft); border: 1px solid rgba(181, 52, 26, 0.1); border-radius: 100px; padding: 24px 60px; text-align: center; }
+  .summary-text { font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 700; color: var(--accent); letter-spacing: -0.5px; }
+
+  @media (max-width: 1000px) {
+    .main { padding: 60px 32px; }
+    .unique-grid { grid-template-columns: 1fr; gap: 32px; }
+    .summary-callout { border-radius: 24px; padding: 32px; }
+  }
+
+  /* ── TABS ── */
+  .tab-bar { display: flex; gap: 2px; background: #eee; padding: 4px; border-radius: 12px; margin-bottom: 40px; width: fit-content; }
+  .tab-btn { padding: 10px 24px; border: none; background: transparent; cursor: pointer; border-radius: 8px; font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 700; color: var(--text-muted); transition: all 0.3s; }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active { background: #fff; color: var(--accent); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; animation: fadeIn 0.4s ease; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── TAGS ── */
+  .tag { display: inline-block; padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; }
+  .tag-grey { background: #f0f0f0; color: #666; }
+
+  /* ── TAKEAWAYS TAB STYLES ── */
+  .wrap-takeaways { padding: 1.5rem 0; font-size: 14px; color: var(--color-text-primary); }
+  .section-label { font-size: 11px; font-weight: 700; color: var(--color-text-tertiary); letter-spacing: 0.08em; text-transform: uppercase; margin: 4rem 0 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+  .section-label:first-child { margin-top: 0; }
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+  .card-takeaway { background: var(--color-background-primary); border: 1px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 2rem; border-left: 6px solid transparent; transition: transform 0.2s; }
+  .card-takeaway:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+  .card-takeaway.gold { border-left-color: #BA7517; }
+  .card-takeaway.coral { border-left-color: #D85A30; }
+  .card-takeaway.teal { border-left-color: #1D9E75; }
+  .card-takeaway.blue { border-left-color: #378ADD; }
+  .card-takeaway.purple { border-left-color: #7F77DD; }
+  .card-takeaway h3 { font-size: 18px; font-weight: 700; margin: 0 0 12px; color: var(--color-text-primary); font-family: 'Outfit'; }
+  .card-takeaway p { font-size: 14px; color: var(--color-text-secondary); margin: 0; line-height: 1.6; }
+  .card-takeaway .tag-status { display: inline-block; font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 4px; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px; }
+  .tag-opp { background: var(--color-background-success); color: var(--color-text-success); }
+  .tag-risk { background: var(--color-background-danger); color: var(--color-text-danger); }
+  .tag-act { background: var(--color-background-info); color: var(--color-text-info); }
+  .tag-warn { background: var(--color-background-warning); color: var(--color-text-warning); }
+  .hero-takeaway { background: var(--sidebar-bg); color: #fff; border-radius: var(--border-radius-lg); padding: 3rem; margin-bottom: 3rem; position: relative; overflow: hidden; }
+  .hero-takeaway h2 { font-size: 28px; font-weight: 700; margin: 0 0 12px; font-family: 'Outfit'; color: var(--gold); }
+  .hero-takeaway p { font-size: 16px; color: #aaa; margin: 0; line-height: 1.6; max-width: 800px; }
+  .action-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+  .action-box { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 1.5rem; border: 1px solid var(--border); }
+  .action-box span { font-size: 10px; font-weight: 800; color: var(--color-text-tertiary); display: block; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.1em; }
+  .action-box p { font-size: 13px; color: var(--color-text-primary); margin: 0; line-height: 1.5; font-weight: 600; }
+  button.ask { background: transparent; border: 1px solid var(--color-border-secondary); border-radius: var(--border-radius-md); padding: 8px 16px; font-size: 12px; color: var(--color-text-secondary); cursor: pointer; margin-top: 16px; font-family: 'Outfit'; font-weight: 600; }
+  button.ask:hover { background: #f0f0f0; border-color: var(--text); color: var(--text); }
+  
+  .back-btn {
+    position: fixed; top: 30px; left: 30px;
+    background: rgba(0,0,0,0.8);
+    color: #fff; text-decoration: none;
+    padding: 10px 20px; border-radius: 100px;
+    font-size: 11px; font-weight: 800;
+    letter-spacing: 1px; text-transform: uppercase;
+    z-index: 1000; backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.1);
+    font-family: 'Outfit';
+  }
+  .back-btn:hover { background: #000; }
+</style>
+</head>
+<body>
+
+<a href="index.html#s9" class="back-btn">← Go Back</a>
+
+<main class="main">
+
+  <header class="header">
+    <div class="eyebrow">Strategic Intelligence Matrix</div>
+    <h1 class="title">Lazzat Competitors<br>analysis matrix</h1>
+  </header>
+
+  <!-- TAB NAVIGATION -->
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab(event, 'selection')">Selection Methodology</button>
+    <button class="tab-btn" onclick="switchTab(event, 'matrix')">inclusivity usp comparison matrix</button>
+    <button class="tab-btn" onclick="switchTab(event, 'social')">Social Strategy</button>
+    <button class="tab-btn" onclick="switchTab(event, 'platforms')">Platforms Listing</button>
+    <button class="tab-btn" onclick="switchTab(event, 'seo')">SEO & Local Search</button>
+    <button class="tab-btn" onclick="switchTab(event, 'blog')">Content & Blogs</button>
+    <button class="tab-btn" onclick="switchTab(event, 'reviews')">Reviews Management</button>
+    <button class="tab-btn" onclick="switchTab(event, 'retention')">Retention Strategies</button>
+    <button class="tab-btn" onclick="switchTab(event, 'takeaways')">Key Takeaways</button>
+  </div>
+
+  <!-- TAB 00: SELECTION METHODOLOGY -->
+  <div id="selection" class="tab-content active">
+    <section class="section" style="padding-top: 40px; padding-bottom: 80px;">
+      <div class="eyebrow">Strategic Intelligence</div>
+      <h2 class="title" style="margin-bottom: 60px; font-size: 32px;">Competitor Selection<br>& Selection Pivot</h2>
+
+      <!-- FLOW ROW -->
+      <div style="display: flex; gap: 40px; margin-bottom: 60px; position: relative;">
+        <!-- STEP 1 -->
+        <div style="flex: 1; padding: 40px; background: #fff; border: 1px solid var(--border); border-radius: 24px; box-shadow: var(--shadow);">
+          <div style="font-family: 'Outfit', sans-serif; font-size: 10px; font-weight: 800; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px; display: flex; align-items: center; gap: 12px;">
+            <span style="width: 24px; height: 24px; border-radius: 50%; background: var(--gold-soft); color: var(--gold); display: flex; align-items: center; justify-content: center; font-size: 10px;">01</span>
+            Initial Criteria
+          </div>
+          <ul style="list-style: none;">
+            <li style="font-size: 13px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;"><span style="color: var(--gold);">•</span> <strong>Cuisine:</strong> Subcontinental grill</li>
+            <li style="font-size: 13px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;"><span style="color: var(--gold);">•</span> <strong>Scale:</strong> Highly scaled giants</li>
+            <li style="font-size: 13px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;"><span style="color: var(--gold);">•</span> <strong>Mission/Vision/USP:</strong> Inclusivity</li>
+            <li style="font-size: 13px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;"><span style="color: var(--gold);">•</span> <strong>Geography:</strong> Across Canada</li>
+            <li style="font-size: 13px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;"><span style="color: var(--gold);">•</span> <strong>Format:</strong> Fast-casual or casual dining</li>
+          </ul>
+        </div>
+
+        <!-- STEP 2: THE PIVOT -->
+        <div style="flex: 1.2; padding: 40px; background: var(--accent-soft); border: 1px solid rgba(181, 52, 26, 0.1); border-radius: 24px; position: relative;">
+          <div style="font-family: 'Outfit', sans-serif; font-size: 10px; font-weight: 800; color: var(--accent); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px; display: flex; align-items: center; gap: 12px;">
+            <span style="width: 24px; height: 24px; border-radius: 50%; background: #fff; color: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 10px;">02</span>
+            The Strategic Pivot
+          </div>
+          <div style="margin-bottom: 24px;">
+            <h4 style="font-family: 'Outfit', sans-serif; font-size: 14px; color: var(--text); margin-bottom: 8px;">The Market Finding</h4>
+            <p style="font-size: 13px; color: var(--text-muted);">No scaled subcontinental brand is currently "mass-market inclusive." Incumbents remain diaspora-focused.</p>
+          </div>
+          <div style="padding: 20px; background: #fff; border-radius: 16px; border-left: 4px solid var(--accent);">
+            <h4 style="font-family: 'Outfit', sans-serif; font-size: 11px; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">Strategic Shift</h4>
+            <p style="font-size: 14px; font-weight: 700; color: var(--text); line-height: 1.3;">Prioritize <strong>Format & Proven Inclusivity</strong> over cuisine specificity.</p>
+          </div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div style="flex: 1; padding: 40px; background: #fff; border: 1px solid var(--border); border-radius: 24px; box-shadow: var(--shadow);">
+          <div style="font-family: 'Outfit', sans-serif; font-size: 10px; font-weight: 800; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px; display: flex; align-items: center; gap: 12px;">
+            <span style="width: 24px; height: 24px; border-radius: 50%; background: var(--gold-soft); color: var(--gold); display: flex; align-items: center; justify-content: center; font-size: 10px;">03</span>
+            Final Landscape
+          </div>
+          <p style="font-size: 14px; color: var(--text); font-weight: 600; margin-bottom: 12px;">10 High-Volume Giants</p>
+          <p style="font-size: 13px; color: var(--text-muted);">Segmented by how they execute <strong>Radical Inclusivity</strong> in the Canadian market.</p>
+        </div>
+      </div>
+
+      <!-- SEGMENTATION ROW -->
+      <div class="grid-3">
+        <div class="takeaway-card" style="border-top-color: var(--green-text);">
+          <span class="takeaway-label" style="color: var(--green-text);">Segment 01</span>
+          <h3 class="takeaway-title">Explicitly Inclusive</h3>
+          <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">Story built around "everyone" messaging.</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+            <span class="tag tag-grey">Osmow’s</span><span class="tag tag-grey">Paramount</span><span class="tag tag-grey">Halal Guys</span><span class="tag tag-grey">Tahini’s</span>
+          </div>
+        </div>
+        <div class="takeaway-card" style="border-top-color: var(--blue-text);">
+          <span class="takeaway-label" style="color: var(--blue-text);">Segment 02</span>
+          <h3 class="takeaway-title">Implicitly Inclusive</h3>
+          <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">Customizable models for diverse needs.</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+            <span class="tag tag-grey">Chipotle</span><span class="tag tag-grey">Mucho Burrito</span><span class="tag tag-grey">Subway</span>
+          </div>
+        </div>
+        <div class="takeaway-card" style="border-top-color: var(--purple-text);">
+          <span class="takeaway-label" style="color: var(--purple-text);">Segment 03</span>
+          <h3 class="takeaway-title">Growth Lever</h3>
+          <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">Legacy brands integrating Halal offerings.</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+            <span class="tag tag-grey">Popeyes</span><span class="tag tag-grey">KFC</span><span class="tag tag-grey">Mary Brown’s</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- TAB 01: INCLUSIVITY USP COMPARISON MATRIX -->
+  <div id="matrix" class="tab-content">
+    <div class="matrix-wrap">
+      <div class="matrix-scroll">
+        <table>
+        <thead>
+          <tr>
+            <th>Brand</th>
+            <th>Core USP (Mission/Vision)</th>
+            <th>Inclusivity</th>
+            <th>Proof (Menu, Dietary, Cultural)</th>
+            <th>Locations</th>
+            <th>Target Audience</th>
+            <th>Threat</th>
+            <th>Key Gap vs Lazzat</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="brand-name">Osmow's Shawarma</div></td>
+            <td><div class="usp-text">Canada’s #1 halal QSR built for universal cravings</div></td>
+            <td><span class="pill explicit">Explicit</span></td>
+            <td>Fully halal, chicken/beef, wraps & bowls, late-night</td>
+            <td><strong>230+</strong></td>
+            <td>All Canadians, cross-community</td>
+            <td><span class="pill highest">Highest</span></td>
+            <td>No premium experience, limited cuisine depth</td>
+          </tr>
+          <tr>
+            <td><div class="brand-name">Paramount Fine Foods</div></td>
+            <td><div class="usp-text">Premium Lebanese grill positioned for everyone</div></td>
+            <td><span class="pill explicit">Explicit</span></td>
+            <td>Halal meats, grilled variety, family platters, dine-in</td>
+            <td><strong>70+</strong></td>
+            <td>Multicultural families, celebrations</td>
+            <td><span class="pill highest">Highest</span></td>
+            <td>Still culturally anchored, not fully universal</td>
+          </tr>
+          <tr>
+            <td><div class="brand-name">The Halal Guys</div></td>
+            <td><div class="usp-text">“The brand is everyone” – simplified halal street food</div></td>
+            <td><span class="pill explicit">Explicit</span></td>
+            <td>100% halal, chicken, beef gyro, falafel</td>
+            <td><strong>10+</strong></td>
+            <td>Urban multicultural millennials</td>
+            <td><span class="pill high">High</span></td>
+            <td>Extremely limited menu variety</td>
+          </tr>
+          <tr>
+            <td><div class="brand-name">Mucho Burrito</div></td>
+            <td><div class="usp-text">Customizable Mexican fast-casual for diverse Canadians</div></td>
+            <td><span class="pill implicit">Implicit</span></td>
+            <td>Veg, chicken, beef, plant-based options (no halal)</td>
+            <td><strong>145+</strong></td>
+            <td>Diverse suburban Canadians</td>
+            <td><span class="pill medium">Medium</span></td>
+            <td>No halal → excludes key Brampton audience</td>
+          </tr>
+          <tr>
+            <td><div class="brand-name">Chipotle Canada</div></td>
+            <td><div class="usp-text">Grill culture made universal through simplicity</div></td>
+            <td><span class="pill implicit">Implicit</span></td>
+            <td>Veg, vegan, chicken, beef, dairy-free (no halal)</td>
+            <td><strong>25+</strong></td>
+            <td>Mainstream GTA, health-conscious</td>
+            <td><span class="pill high">High</span></td>
+            <td>No halal + lacks cultural depth</td>
+          </tr>
+          <tr>
+            <td><div class="brand-name">Mary Brown’s</div></td>
+            <td><div class="usp-text">Canada’s largest homegrown chicken chain</div></td>
+            <td><span class="pill emerging">Emerging</span></td>
+            <td>Chicken menu, halal at select locations</td>
+            <td><strong>200+</strong></td>
+            <td>Multicultural pivot in GTA/Brampton</td>
+            <td><span class="pill medium">Medium</span></td>
+            <td>Weak identity, limited inclusivity narrative</td>
+          </tr>
+          <tr>
+            <td><div class="brand-name">Popeyes Canada</div></td>
+            <td><div class="usp-text">Global QSR leveraging halal for mass reach</div></td>
+            <td><span class="pill implicit">Implicit</span></td>
+            <td>Halal at select locations, chicken-focused menu</td>
+            <td><strong>200+</strong></td>
+            <td>All communities via halal certification</td>
+            <td><span class="pill high">High</span></td>
+            <td>One-dimensional menu (fried chicken only)</td>
+          </tr>
+          <tr>
+            <td><div class="brand-name">Tahini’s Restaurant</div></td>
+            <td><div class="usp-text">Middle Eastern fast-casual designed for non-Arab diners</div></td>
+            <td><span class="pill explicit">Explicit</span></td>
+            <td>Halal proteins, vegan options, customizable bowls</td>
+            <td><strong>30+</strong></td>
+            <td>Multicultural millennials, GTA</td>
+            <td><span class="pill high">High</span></td>
+            <td>Less menu diversity vs subcontinental cuisine</td>
+          </tr>
+          <tr>
+            <td><div class="brand-name">Subway Canada</div></td>
+            <td><div class="usp-text">Customizable meals for every community</div></td>
+            <td><span class="pill implicit">Implicit</span></td>
+            <td>Halal options, veg, no-beef, full customization</td>
+            <td><strong>3,000+</strong></td>
+            <td>Price-sensitive cross-community</td>
+            <td><span class="pill medium">Medium</span></td>
+            <td>No cultural identity or experience</td>
+          </tr>
+          <tr>
+            <td><div class="brand-name">KFC Canada</div></td>
+            <td><div class="usp-text">Global QSR with halal certification for diverse groups</div></td>
+            <td><span class="pill implicit">Implicit</span></td>
+            <td>Halal at select locations, chicken-based menu</td>
+            <td><strong>700+</strong></td>
+            <td>South Asian, Arab, African, Caribbean</td>
+            <td><span class="pill medium">Medium</span></td>
+            <td>No variety, no experiential dining</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <h2 class="section-title"><span></span> What This Matrix Clearly Shows</h2>
+  
+  <div class="grid-3">
+    <div class="takeaway-card">
+      <span class="takeaway-label">Category A</span>
+      <h3 class="takeaway-title">Explicit Inclusivity Leaders</h3>
+      <ul class="takeaway-list">
+        <li>Osmow’s Shawarma</li>
+        <li>Paramount Fine Foods</li>
+        <li>The Halal Guys</li>
+        <li>Tahini’s Restaurant</li>
+      </ul>
+    </div>
+    <div class="takeaway-card">
+      <span class="takeaway-label">Category B</span>
+      <h3 class="takeaway-title">Functional Inclusivity</h3>
+      <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">(via customization, not identity)</p>
+      <ul class="takeaway-list">
+        <li>Chipotle Canada</li>
+        <li>Subway Canada</li>
+        <li>Mucho Burrito</li>
+      </ul>
+    </div>
+    <div class="takeaway-card">
+      <span class="takeaway-label">Category C</span>
+      <h3 class="takeaway-title">Halal as a Growth Lever</h3>
+      <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">(not identity)</p>
+      <ul class="takeaway-list">
+        <li>Popeyes Canada</li>
+        <li>KFC Canada</li>
+        <li>Mary Brown’s</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="summary-callout">
+    <div class="summary-text">
+      “Competitors are either inclusive by function or cultural by identity—Lazzat is the only brand positioned to own both at the same time.”
+    </div>
+  </div>
+</div> <!-- END MATRIX TAB -->
+
+  <!-- TAB 02: SOCIAL STRATEGY -->
+  <div id="social" class="tab-content">
+    
+    <!-- DATA TABLE FIRST -->
+    <h2 class="section-title"><span></span> Detailed Competitor Social Breakdown</h2>
+    <div class="matrix-wrap" style="margin-bottom: 80px;">
+      <div class="matrix-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Competitor</th>
+              <th>Strategic Category</th>
+              <th>Primary Platforms</th>
+              <th>Core Content Pillars</th>
+              <th>Formats & Style</th>
+              <th>Cadence & Peak Times</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><div class="brand-name">Tahini’s</div></td>
+              <td><span class="pill explicit">Explicitly Inclusive</span></td>
+              <td>TikTok, IG, YT, FB</td>
+              <td>Meme culture, "Eat Unbland", rapid trends, BTS prep</td>
+              <td>Lo-fi short-form video (15-30s), creator POV, skits</td>
+              <td><strong>1-2x Daily</strong><br><span style="font-size:11px; color:var(--text-muted);">12 PM, 7-9 PM</span></td>
+            </tr>
+            <tr>
+              <td><div class="brand-name">Osmow’s</div></td>
+              <td><span class="pill explicit">Explicitly Inclusive</span></td>
+              <td>IG, FB, TikTok, YT</td>
+              <td>Modern Mediterranean, sports culture, community, product</td>
+              <td>High-production video, dynamic graphics, localized ads</td>
+              <td><strong>4-5x Weekly</strong><br><span style="font-size:11px; color:var(--text-muted);">11:30 AM, 5:00 PM</span></td>
+            </tr>
+            <tr>
+              <td><div class="brand-name">Paramount</div></td>
+              <td><span class="pill explicit">Explicitly Inclusive</span></td>
+              <td>IG, FB, LinkedIn</td>
+              <td>Heritage, premium ingredients, family, founder philanthropy</td>
+              <td>Pro food photography, video storytelling, corporate PR</td>
+              <td><strong>3-4x Weekly</strong><br><span style="font-size:11px; color:var(--text-muted);">12:00 PM, 6:00 PM</span></td>
+            </tr>
+            <tr>
+              <td><div class="brand-name">The Halal Guys</div></td>
+              <td><span class="pill explicit">Explicitly Inclusive</span></td>
+              <td>IG, FB, TikTok</td>
+              <td>"White Sauce" cult, NY street roots, menu hacks</td>
+              <td>UGC reposts, ASMR assembly, vibrant carousels</td>
+              <td><strong>Daily</strong><br><span style="font-size:11px; color:var(--text-muted);">11:30 AM, 9-11 PM</span></td>
+            </tr>
+            <tr>
+              <td><div class="brand-name">Chipotle</div></td>
+              <td><span class="pill implicit">Implicitly Inclusive</span></td>
+              <td>TikTok, IG, X</td>
+              <td>Transparency, Gen Z humor, menu hacks, employee POV</td>
+              <td>"Unhinged" style, text-heavy memes, fast-paced POV</td>
+              <td><strong>1-2x Daily</strong><br><span style="font-size:11px; color:var(--text-muted);">11:00 AM, 2-3 PM</span></td>
+            </tr>
+            <tr>
+              <td><div class="brand-name">Mucho Burrito</div></td>
+              <td><span class="pill implicit">Implicitly Inclusive</span></td>
+              <td>IG, FB, TikTok</td>
+              <td>Flavor exploration, freshness, customization, LTOs</td>
+              <td>Bright graphics, stop-motion animation, short prep clips</td>
+              <td><strong>3-4x Weekly</strong><br><span style="font-size:11px; color:var(--text-muted);">10:30 AM, 4:30 PM</span></td>
+            </tr>
+            <tr>
+              <td><div class="brand-name">Subway (Halal)</div></td>
+              <td><span class="pill implicit">Implicitly Inclusive</span></td>
+              <td>IG, FB, TikTok, YT</td>
+              <td>Value/promos, athlete partnerships, localized menus</td>
+              <td>Celeb endorsements, static promos, interactive IG Stories</td>
+              <td><strong>Daily</strong><br><span style="font-size:11px; color:var(--text-muted);">8:00 AM, 11:00 AM</span></td>
+            </tr>
+            <tr>
+              <td><div class="brand-name">Mary Brown’s</div></td>
+              <td><span class="pill emerging">Inclusivity as Growth</span></td>
+              <td>IG, FB, TikTok</td>
+              <td>Canadian heritage, Halal offerings, local support</td>
+              <td>Comfort-food closeups, influencer taste tests, event recaps</td>
+              <td><strong>4-5x Weekly</strong><br><span style="font-size:11px; color:var(--text-muted);">11:30 AM</span></td>
+            </tr>
+            <tr>
+              <td><div class="brand-name">Popeyes</div></td>
+              <td><span class="pill emerging">Inclusivity as Growth</span></td>
+              <td>IG, TikTok, FB</td>
+              <td>Louisiana roots, product lore, Halal access, spice culture</td>
+              <td>High-saturation food porn, ASMR crunch, foodie drops</td>
+              <td><strong>3-5x Weekly</strong><br><span style="font-size:11px; color:var(--text-muted);">11:00 AM, 5:00 PM</span></td>
+            </tr>
+            <tr>
+              <td><div class="brand-name">KFC (Halal)</div></td>
+              <td><span class="pill emerging">Inclusivity as Growth</span></td>
+              <td>IG, TikTok, FB, X</td>
+              <td>Nostalgia/Colonel, value buckets, gaming, Halal availability</td>
+              <td>Gaming crossovers, edgy humor (X), high-budget shoots</td>
+              <td><strong>Daily</strong><br><span style="font-size:11px; color:var(--text-muted);">3:00-6:00 PM</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- SUMMARY & BREAKDOWN FOLLOWS -->
+    <div class="eyebrow">Engagement Intelligence</div>
+    <h2 class="title" style="font-size: 32px; margin-bottom: 60px;">Executive Summary:<br>Social Media Competitive Landscape</h2>
+
+    <div class="grid-3" style="margin-bottom: 60px;">
+      <div class="takeaway-card" style="grid-column: span 1; border-top-color: var(--gold);">
+        <span class="takeaway-label">01. Platform Dominance</span>
+        <h3 class="takeaway-title">Video is Non-Negotiable</h3>
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">Short-form video (TikTok/Reels) is the primary engine. Static feeds are obsolete.</p>
+        <div style="display: flex; gap: 8px;">
+          <span class="tag tag-grey">TikTok/IG: Primary</span>
+          <span class="tag tag-grey">FB: Utility/Ads</span>
+          <span class="tag tag-grey">X/LinkedIn: Niche</span>
+        </div>
+      </div>
+
+      <div class="takeaway-card" style="grid-column: span 2; border-top-color: var(--accent);">
+        <span class="takeaway-label">02. Content Trends</span>
+        <h3 class="takeaway-title">The "Crave & Culture" Playbook</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-top: 16px;">
+          <div>
+            <h4 style="font-size: 11px; text-transform: uppercase; color: var(--text); margin-bottom: 8px;">Creator Humor</h4>
+            <p style="font-size: 12px; color: var(--text-muted);">Meme culture & lo-fi POV videos (Tahini’s, Chipotle).</p>
+          </div>
+          <div>
+            <h4 style="font-size: 11px; text-transform: uppercase; color: var(--text); margin-bottom: 8px;">Sensory Marketing</h4>
+            <p style="font-size: 12px; color: var(--text-muted);">ASMR & high-saturation "Food Porn" (Popeyes, Halal Guys).</p>
+          </div>
+          <div>
+            <h4 style="font-size: 11px; text-transform: uppercase; color: var(--text); margin-bottom: 8px;">Heritage Blending</h4>
+            <p style="font-size: 12px; color: var(--text-muted);">Cultural roots + mainstream sports/philanthropy (Osmow’s).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background: #fff; padding: 40px; border-radius: 24px; border: 1px solid var(--border); margin-bottom: 60px;">
+      <div class="takeaway-label">03. Cadence & Timing</div>
+      <h3 class="takeaway-title" style="margin-bottom: 32px;">Physiological Posting Windows</h3>
+      <div style="display: flex; gap: 20px; align-items: center;">
+        <div style="flex: 1; text-align: center; padding: 24px; background: var(--bg); border-radius: 16px;">
+          <div style="font-size: 18px; font-weight: 800; color: var(--text);">10:30 AM</div>
+          <div style="font-size: 11px; color: var(--accent); font-weight: 700; margin-bottom: 4px;">PRE-LUNCH</div>
+          <p style="font-size: 12px; color: var(--text-muted);">Intercept the mid-day decision cycle.</p>
+        </div>
+        <div style="width: 40px; height: 1px; background: var(--border);"></div>
+        <div style="flex: 1; text-align: center; padding: 24px; background: var(--bg); border-radius: 16px;">
+          <div style="font-size: 18px; font-weight: 800; color: var(--text);">4:30 PM</div>
+          <div style="font-size: 11px; color: var(--accent); font-weight: 700; margin-bottom: 4px;">PRE-DINNER</div>
+          <p style="font-size: 12px; color: var(--text-muted);">Capture commuters & family planning.</p>
+        </div>
+        <div style="width: 40px; height: 1px; background: var(--border);"></div>
+        <div style="flex: 1; text-align: center; padding: 24px; background: var(--bg); border-radius: 16px;">
+          <div style="font-size: 18px; font-weight: 800; color: var(--text);">9:00 PM+</div>
+          <div style="font-size: 11px; color: var(--accent); font-weight: 700; margin-bottom: 4px;">LATE NIGHT</div>
+          <p style="font-size: 12px; color: var(--text-muted);">Trigger high-margin craving spikes.</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="background: var(--sidebar-bg); color: #fff; padding: 60px; border-radius: 32px; position: relative; overflow: hidden; margin-bottom: 40px;">
+      <div style="position: absolute; top: 0; right: 0; padding: 20px; opacity: 0.1; font-size: 120px; font-weight: 900; line-height: 0.8; font-family: 'Outfit';">LAZZAT</div>
+      <div class="takeaway-label" style="color: var(--gold);">Strategic Takeaway</div>
+      <h3 class="title" style="color: #fff; font-size: 28px; margin-bottom: 24px;">Winning the Digital "Vibe"</h3>
+      <p style="font-size: 16px; color: #aaa; max-width: 800px; line-height: 1.6;">
+        To dominate, Lazzat must execute its <strong>inclusive mission</strong> through high-frequency, sensory-rich short-form video. The most successful competitors don’t just sell food—they sell a cultural vibe (Tahini’s humor, Osmow’s sports, Chipotle’s transparency) and time it to intercept physiological hunger cycles.
+      </p>
+    </div>
+  </div>
+
+  <!-- TAB 03: PLATFORMS LISTING -->
+  <div id="platforms" class="tab-content">
+    <div class="eyebrow">E-Commerce Ecosystem</div>
+    <h2 class="title" style="font-size: 32px; margin-bottom: 60px;">Digital Platform<br>Intelligence Matrix</h2>
+    
+    <div class="matrix-wrap">
+      <div class="matrix-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Competitor</th>
+              <th>3rd-Party Delivery</th>
+              <th>Review & Local Search</th>
+              <th>1st-Party Ordering</th>
+              <th>Key Platform Strategy & Observations</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><div class="brand-name">Tahini’s</div></td>
+              <td>All 3 platforms</td>
+              <td>Heavy Google focus; Yelp secondary</td>
+              <td>Native App (Tahini's Rewards)</td>
+              <td>Uses social media virality to drive app downloads; strong local SEO optimization.</td>
+            </tr>
+            <tr>
+              <td><div class="brand-name">Osmow’s</div></td>
+              <td>All 3 platforms</td>
+              <td>High review volume on Google</td>
+              <td>Native App (Osmow's App)</td>
+              <td>Heavily promotes 1st-party app on social media to bypass 3rd-party fees; exclusive app-only promos.</td>
+            </tr>
+            <tr>
+              <td><div class="brand-name">Paramount</div></td>
+              <td>All 3 platforms</td>
+              <td>Google and TripAdvisor</td>
+              <td>Web-based ordering & App</td>
+              <td>Focuses on high-quality menu photography on 3rd-party apps to justify a slightly higher price point.</td>
+            </tr>
+            <tr>
+              <td><div class="brand-name">The Halal Guys</div></td>
+              <td>All 3 platforms</td>
+              <td>Google, Yelp</td>
+              <td>Native App (Rewards)</td>
+              <td>Leverages the "Big 3" delivery apps heavily for late-night cravings (9 PM - 2 AM).</td>
+            </tr>
+            <tr>
+              <td><div class="brand-name">Chipotle</div></td>
+              <td>All 3 platforms</td>
+              <td>Google (strong profiles)</td>
+              <td>Dominant Native App</td>
+              <td>Aggressive push toward 1st-party app for customization; frequently runs delivery fee promos.</td>
+            </tr>
+            <tr>
+              <td><div class="brand-name">Mucho Burrito</div></td>
+              <td>All 3 platforms</td>
+              <td>Google</td>
+              <td>Native App</td>
+              <td>Uses aggregators for visibility but limits extreme customizations on them to maintain speed.</td>
+            </tr>
+            <tr>
+              <td><div class="brand-name">Subway</div></td>
+              <td>All 3 platforms</td>
+              <td>Google</td>
+              <td>Dominant Native App</td>
+              <td>Massive integration with delivery apps, but aggressively pushes digital coupons strictly through their app.</td>
+            </tr>
+            <tr>
+              <td><div class="brand-name">Mary Brown’s</div></td>
+              <td>All 3 platforms</td>
+              <td>Google</td>
+              <td>Native App (MB app)</td>
+              <td>Frequently buys banner ad placements within Uber Eats and DoorDash to intercept "chicken" searches.</td>
+            </tr>
+            <tr>
+              <td><div class="brand-name">Popeyes</div></td>
+              <td>All 3 platforms</td>
+              <td>Google</td>
+              <td>Native App</td>
+              <td>Relies on aggregators for massive reach during peak dinner and weekend sporting events.</td>
+            </tr>
+            <tr>
+              <td><div class="brand-name">KFC</div></td>
+              <td>All 3 platforms</td>
+              <td>Google</td>
+              <td>Native App</td>
+              <td>Offers exclusive "digital bucket" deals to force users onto their proprietary ordering system.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- EXECUTIVE TAKEAWAYS -->
+    <div class="eyebrow" style="margin-top: 80px;">Execution Strategy</div>
+    <h2 class="title" style="font-size: 28px; margin-bottom: 40px;">Executive Key Takeaways:<br>Where Lazzat Must Be Present</h2>
+
+    <div class="grid-3" style="margin-bottom: 40px;">
+      <!-- Aggregators -->
+      <div class="takeaway-card" style="border-top-color: var(--blue-text);">
+        <span class="takeaway-label">Mandatory</span>
+        <h3 class="takeaway-title">The "Big 3" Aggregators</h3>
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">Uber Eats, DoorDash, and SkipTheDishes are non-negotiable for discovery.</p>
+        <div style="background: #f9f9f9; padding: 12px; border-radius: 8px; font-size: 12px; color: var(--text);">
+          <strong>Tactical Tip:</strong> Use crave-inducing photography and English-first naming (e.g., "Flame-Grilled Skewers").
+        </div>
+      </div>
+
+      <!-- Google vs Yelp -->
+      <div class="takeaway-card" style="border-top-color: var(--gold);">
+        <span class="takeaway-label">Optimization</span>
+        <h3 class="takeaway-title">Google Trumps Yelp</h3>
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">Canadian consumers rely heavily on Google Maps over Yelp for dining.</p>
+        <div style="background: #f9f9f9; padding: 12px; border-radius: 8px; font-size: 12px; color: var(--text);">
+          <strong>Action:</strong> Claim GBP, upload professional interior shots, and aggressively solicit early reviews.
+        </div>
+      </div>
+
+      <!-- 1st Party -->
+      <div class="takeaway-card" style="border-top-color: var(--accent);">
+        <span class="takeaway-label">Profitability</span>
+        <h3 class="takeaway-title">Launch 1st-Party Ordering</h3>
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">Use 3rd-party apps as "Top of Funnel" but move users to Lazzat.ca.</p>
+        <div style="background: #f9f9f9; padding: 12px; border-radius: 8px; font-size: 12px; color: var(--text);">
+          <strong>Strategy:</strong> Include 15% OFF bounce-back offers in all aggregator delivery bags.
+        </div>
+      </div>
+    </div>
+
+    <!-- Dietary Tagging Card (Full Width) -->
+    <div style="background: #fff; padding: 40px; border-radius: 24px; border: 1px solid var(--border); margin-bottom: 60px; display: flex; align-items: center; gap: 40px;">
+      <div style="flex: 1;">
+        <span class="takeaway-label">Foundation</span>
+        <h3 class="takeaway-title">Clear Dietary Tagging</h3>
+        <p style="font-size: 14px; color: var(--text-muted);">To support the "for everyone" mission, transparency is key. Explicit tagging removes friction for new customers trying subcontinental cuisine.</p>
+      </div>
+      <div style="display: flex; gap: 12px;">
+        <span class="tag tag-grey" style="background: var(--green-pill); color: var(--green-text); border: 1px solid rgba(0,0,0,0.05);">Halal</span>
+        <span class="tag tag-grey" style="background: var(--blue-pill); color: var(--blue-text); border: 1px solid rgba(0,0,0,0.05);">Gluten-Friendly</span>
+        <span class="tag tag-grey" style="background: var(--orange-pill); color: var(--orange-text); border: 1px solid rgba(0,0,0,0.05);">Vegetarian</span>
+        <span class="tag tag-grey" style="background: var(--red-pill); color: var(--red-text); border: 1px solid rgba(0,0,0,0.05);">Level: Spicy</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 04: SEO & LOCAL SEARCH -->
+  <div id="seo" class="tab-content">
+    <div class="eyebrow">Search Intelligence</div>
+    <h2 class="title" style="font-size: 32px; margin-bottom: 60px;">The "Near Me" Playbook:<br>SEO & Local Search Strategy</h2>
+
+    <!-- SECTION 01: LOCAL SEARCH & MAPS -->
+    <div class="takeaway-label">01. Local Search & Google Maps</div>
+    <h3 class="takeaway-title" style="margin-bottom: 32px;">Winning the "Map Pack" (70%+ Search Volume)</h3>
+    
+    <div class="grid-3" style="margin-bottom: 60px;">
+      <div class="takeaway-card" style="border-top-color: var(--gold);">
+        <h4 style="font-size: 14px; margin-bottom: 12px; color: var(--text);">Review & Sentiment Farming</h4>
+        <p style="font-size: 12px; color: var(--text-muted);">Osmow’s & Tahini’s actively solicit reviews and respond within 24-48h. Google favors listings with high review velocity.</p>
+      </div>
+      <div class="takeaway-card" style="border-top-color: var(--accent);">
+        <h4 style="font-size: 14px; margin-bottom: 12px; color: var(--text);">Hyper-Specific Tagging</h4>
+        <p style="font-size: 12px; color: var(--text-muted);">Mucho Burrito & Mary Brown’s use tags like "Halal," "Late Night," and "Dine-in" to win voice searches.</p>
+      </div>
+      <div class="takeaway-card" style="border-top-color: var(--blue-text);">
+        <h4 style="font-size: 14px; margin-bottom: 12px; color: var(--text);">Direct App Integration</h4>
+        <p style="font-size: 12px; color: var(--text-muted);">Chipotle & Subway use direct "Order" buttons in Maps to bypass websites and funnel to 1st-party apps.</p>
+      </div>
+    </div>
+
+    <!-- SECTION 02: ON-PAGE SEO -->
+    <div style="background: #fff; padding: 40px; border-radius: 24px; border: 1px solid var(--border); margin-bottom: 60px;">
+      <div class="takeaway-label">02. On-Page SEO & Architecture</div>
+      <h3 class="takeaway-title" style="margin-bottom: 32px;">Capturing City-Level Traffic</h3>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px;">
+        <div style="padding: 20px; background: var(--bg); border-radius: 16px;">
+          <h4 style="font-size: 13px; color: var(--accent); text-transform: uppercase; margin-bottom: 12px;">Programmatic Pages</h4>
+          <p style="font-size: 12px; color: var(--text-muted);">Unique URLs for every storefront (e.g., /mississauga/hurontario) with local schema and maps.</p>
+        </div>
+        <div style="padding: 20px; background: var(--bg); border-radius: 16px;">
+          <h4 style="font-size: 13px; color: var(--accent); text-transform: uppercase; margin-bottom: 12px;">Menu-Driven SEO</h4>
+          <p style="font-size: 12px; color: var(--text-muted);">Dedicated landing pages for high-volume items (e.g., Popeyes' "Spicy Chicken Sandwich" page).</p>
+        </div>
+        <div style="padding: 20px; background: var(--bg); border-radius: 16px;">
+          <h4 style="font-size: 13px; color: var(--accent); text-transform: uppercase; margin-bottom: 12px;">Catering Portals</h4>
+          <p style="font-size: 12px; color: var(--text-muted);">Separate sub-directories to capture high-value B2B searches like "office lunch catering Toronto."</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 03 & 04 -->
+    <div class="grid-3" style="margin-bottom: 60px;">
+      <!-- Keyword Targeting -->
+      <div class="takeaway-card" style="grid-column: span 1; border-top-color: var(--purple-text);">
+        <div class="takeaway-label">03. Keyword Strategies</div>
+        <h3 class="takeaway-title" style="font-size: 16px;">Category vs. Function</h3>
+        <div style="margin-top: 16px;">
+          <div style="margin-bottom: 12px;">
+            <span style="font-size: 11px; font-weight: 800; color: var(--text);">OWN THE CATEGORY</span>
+            <p style="font-size: 11px; color: var(--text-muted);">"Best Shawarma Toronto" (Tahini’s, Halal Guys).</p>
+          </div>
+          <div>
+            <span style="font-size: 11px; font-weight: 800; color: var(--text);">OWN THE FUNCTION</span>
+            <p style="font-size: 11px; color: var(--text-muted);">"Healthy fast food," "Lunch specials" (Subway, Chipotle).</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Off-Page SEO -->
+      <div class="takeaway-card" style="grid-column: span 2; border-top-color: var(--green-text);">
+        <div class="takeaway-label">04. Off-Page & Authority Building</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 16px;">
+          <div>
+            <h4 style="font-size: 13px; color: var(--text); margin-bottom: 8px;">Community Backlinks</h4>
+            <p style="font-size: 12px; color: var(--text-muted);">Sponsoring local hockey/university events earns high-authority .org and .edu links.</p>
+          </div>
+          <div>
+            <h4 style="font-size: 13px; color: var(--text); margin-bottom: 8px;">Founder PR</h4>
+            <p style="font-size: 12px; color: var(--text-muted);">Paramount’s Mohamad Fakih earns massive authority from CBC/Toronto Star media hits.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STRATEGIC TAKEAWAY -->
+    <div style="background: var(--sidebar-bg); color: #fff; padding: 60px; border-radius: 32px; position: relative; overflow: hidden; margin-bottom: 40px;">
+      <div style="position: absolute; top: 0; right: 0; padding: 20px; opacity: 0.1; font-size: 120px; font-weight: 900; line-height: 0.8; font-family: 'Outfit';">LAZZAT</div>
+      <div class="takeaway-label" style="color: var(--gold);">SEO Takeaway</div>
+      <h3 class="title" style="color: #fff; font-size: 28px; margin-bottom: 24px;">Owning the "Near Me" Moment</h3>
+      <p style="font-size: 16px; color: #aaa; max-width: 800px; line-height: 1.6;">
+        SEO for Lazzat isn't just about rankings; it's about <strong>authority and ubiquity</strong>. By combining programmatic local pages with viral news hijacking and aggressive Google Business Profile management, Lazzat can intercept consumers at the precise moment their craving meets their mobile search.
+      </p>
+    </div>
+  </div>
+
+  <!-- TAB 05: CONTENT & BLOGS -->
+  <div id="blog" class="tab-content">
+    <div class="eyebrow">Strategic Content</div>
+    <h2 class="title" style="font-size: 32px; margin-bottom: 60px;">Content & Blog Strategy:<br>Building the Educational Bridge</h2>
+
+    <!-- COMPETITOR BLOG STRATEGY -->
+    <div class="takeaway-label">Competitor Strategy Analysis</div>
+    <div class="grid-3" style="margin-bottom: 60px;">
+      <div class="takeaway-card" style="border-top-color: var(--grey-text);">
+        <h4 style="font-size: 14px; margin-bottom: 12px; color: var(--text);">01. Corporate PR & LTO</h4>
+        <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">Newsrooms focused on promotions and celeb partnerships (KFC, Subway, Popeyes).</p>
+        <div style="font-size: 10px; color: var(--gold); font-weight: 800; text-transform: uppercase;">SEO Value: Low (Local) / High (Backlinks)</div>
+      </div>
+      <div class="takeaway-card" style="border-top-color: var(--blue-text);">
+        <h4 style="font-size: 14px; margin-bottom: 12px; color: var(--text);">02. B2B & Franchise Engine</h4>
+        <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">Articles written for investors and catering managers (Osmow’s, Tahini’s).</p>
+        <div style="font-size: 10px; color: var(--gold); font-weight: 800; text-transform: uppercase;">SEO Value: High-Ticket Lead Gen</div>
+      </div>
+      <div class="takeaway-card" style="border-top-color: var(--accent);">
+        <h4 style="font-size: 14px; margin-bottom: 12px; color: var(--text);">03. Ingredient & Culture</h4>
+        <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">Educational deep dives to justify premium pricing (Chipotle, Paramount).</p>
+        <div style="font-size: 10px; color: var(--gold); font-weight: 800; text-transform: uppercase;">SEO Value: Top-of-Funnel Trust</div>
+      </div>
+    </div>
+
+    <!-- LAZZAT BLOG STRATEGY -->
+    <div style="background: #fff; padding: 40px; border-radius: 24px; border: 1px solid var(--border); margin-bottom: 60px;">
+      <div class="takeaway-label">Lazzat's Content Matrix</div>
+      <h3 class="takeaway-title" style="margin-bottom: 32px;">The Educational Bridge Strategy</h3>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px;">
+        <!-- Pillar 1 -->
+        <div style="padding: 24px; background: var(--bg); border-radius: 16px; border-top: 4px solid var(--accent);">
+          <h4 style="font-size: 13px; color: var(--text); margin-bottom: 8px;">Demystification (B2C)</h4>
+          <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 16px;">Converting curiosity into visits by explaining the cuisine.</p>
+          <div style="font-size: 11px; margin-bottom: 4px;"><strong>Idea:</strong> "Beginner's Guide to BBQ"</div>
+          <div style="font-size: 11px; color: var(--gold); font-weight: 700;">SEO: "What is Karahi?"</div>
+        </div>
+        <!-- Pillar 2 -->
+        <div style="padding: 24px; background: var(--bg); border-radius: 16px; border-top: 4px solid var(--gold);">
+          <h4 style="font-size: 13px; color: var(--text); margin-bottom: 8px;">Cross-Cultural Gathering</h4>
+          <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 16px;">Positioning the brand as an inclusive corporate hub.</p>
+          <div style="font-size: 11px; margin-bottom: 4px;"><strong>Idea:</strong> "Inclusive Office Lunches"</div>
+          <div style="font-size: 11px; color: var(--gold); font-weight: 700;">SEO: "Halal Catering GTA"</div>
+        </div>
+        <!-- Pillar 3 -->
+        <div style="padding: 24px; background: var(--bg); border-radius: 16px; border-top: 4px solid var(--blue-text);">
+          <h4 style="font-size: 13px; color: var(--text); margin-bottom: 8px;">Local Community</h4>
+          <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 16px;">Building local relevance in Brampton/Mississauga.</p>
+          <div style="font-size: 11px; margin-bottom: 4px;"><strong>Idea:</strong> "Brampton Neighborhood Guide"</div>
+          <div style="font-size: 11px; color: var(--gold); font-weight: 700;">SEO: Local Neighborhood Traffic</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STRATEGIC TAKEAWAY -->
+    <div style="background: var(--sidebar-bg); color: #fff; padding: 60px; border-radius: 32px; position: relative; overflow: hidden; margin-bottom: 40px;">
+      <div style="position: absolute; top: 0; right: 0; padding: 20px; opacity: 0.1; font-size: 120px; font-weight: 900; line-height: 0.8; font-family: 'Outfit';">LAZZAT</div>
+      <div class="takeaway-label" style="color: var(--gold);">Content Takeaway</div>
+      <h3 class="title" style="color: #fff; font-size: 28px; margin-bottom: 24px;">The Blog as a Necessity</h3>
+      <p style="font-size: 16px; color: #aaa; max-width: 800px; line-height: 1.6;">
+        For Lazzat, a blog isn't just content—it's a <strong>Strategic Bridge</strong>. By demystifying subcontinental flavors for a mainstream audience and showcasing true inclusivity, Lazzat builds the trust needed to become the first choice for a multiracial Canadian market.
+      </p>
+    </div>
+  </div>
+
+  <!-- TAB 06: REVIEWS MANAGEMENT -->
+  <div id="reviews" class="tab-content">
+    <div class="eyebrow">Reputation Engineering</div>
+    <h2 class="title" style="font-size: 32px; margin-bottom: 60px;">Digital Reputation &<br>Reviews Management Systems</h2>
+
+    <!-- GRID: THE 8 PILLARS -->
+    <div class="grid-3" style="margin-bottom: 60px;">
+      <!-- Pillar 1 -->
+      <div class="takeaway-card" style="border-top-color: var(--gold);">
+        <h4 style="font-size: 14px; margin-bottom: 12px; color: var(--text);">01. Experience Engineering</h4>
+        <p style="font-size: 11px; color: var(--text-muted);">Reviews are generated by CX, not the brand. Focus on food consistency, speed, and order accuracy.</p>
+      </div>
+      <!-- Pillar 2 -->
+      <div class="takeaway-card" style="border-top-color: var(--accent);">
+        <h4 style="font-size: 14px; margin-bottom: 12px; color: var(--text);">02. Systematic Encouragement</h4>
+        <p style="font-size: 11px; color: var(--text-muted);">Using Receipt/POS QR codes, Delivery app prompts, and Loyalty notifications to drive volume.</p>
+      </div>
+      <!-- Pillar 3 -->
+      <div class="takeaway-card" style="border-top-color: var(--blue-text);">
+        <h4 style="font-size: 14px; margin-bottom: 12px; color: var(--text);">03. Centralized Monitoring</h4>
+        <p style="font-size: 11px; color: var(--text-muted);">Tools that pull Google, Yelp, and Uber Eats reviews into one dashboard for sentiment analysis.</p>
+      </div>
+      <!-- Pillar 4 -->
+      <div class="takeaway-card" style="border-top-color: var(--green-text);">
+        <h4 style="font-size: 14px; margin-bottom: 12px; color: var(--text);">04. Response Protocols</h4>
+        <p style="font-size: 11px; color: var(--text-muted);">Responding within 24-72 hours to all reviews. Apologize and offer offline resolution for issues.</p>
+      </div>
+      <!-- Pillar 5 -->
+      <div class="takeaway-card" style="border-top-color: var(--purple-text);">
+        <h4 style="font-size: 14px; margin-bottom: 12px; color: var(--text);">05. Franchise Dynamics</h4>
+        <p style="font-size: 11px; color: var(--text-muted);">Head office sets the guidelines; individual owners manage local reviews. Regional monitoring.</p>
+      </div>
+      <!-- Pillar 6 -->
+      <div class="takeaway-card" style="border-top-color: var(--gold);">
+        <h4 style="font-size: 14px; margin-bottom: 12px; color: var(--text);">06. Indirect Boosting</h4>
+        <p style="font-size: 11px; color: var(--text-muted);">Timing promos after peak satisfaction and using customer recovery to update bad feedback.</p>
+      </div>
+      <!-- Pillar 7 -->
+      <div class="takeaway-card" style="border-top-color: var(--red-pill);">
+        <h4 style="font-size: 14px; margin-bottom: 12px; color: var(--text);">07. Reputation Defense</h4>
+        <p style="font-size: 11px; color: var(--text-muted);">Actively reporting fake/spam reviews and using legal teams for serious brand damage.</p>
+      </div>
+      <!-- Pillar 8 -->
+      <div class="takeaway-card" style="border-top-color: var(--blue-pill);">
+        <h4 style="font-size: 14px; margin-bottom: 12px; color: var(--text);">08. Operational Variance</h4>
+        <p style="font-size: 11px; color: var(--text-muted);">Ratings vary by operator quality. Standardized models (Chipotle) produce more stable reviews.</p>
+      </div>
+    </div>
+
+    <!-- SUMMARY SECTION -->
+    <div style="background: #fff; padding: 40px; border-radius: 24px; border: 1px solid var(--border); margin-bottom: 60px;">
+      <div class="takeaway-label">The Lazzat Engine</div>
+      <h3 class="takeaway-title" style="margin-bottom: 32px;">Systematizing Positive Feedback</h3>
+      <div style="display: flex; gap: 20px; align-items: center; justify-content: center;">
+        <div style="text-align: center; flex: 1;">
+          <div style="font-weight: 800; font-size: 18px; color: var(--text);">ENGINEER</div>
+          <div style="font-size: 11px; color: var(--text-muted);">Experience that triggers reviews</div>
+        </div>
+        <div style="width: 20px; height: 1px; background: var(--border);"></div>
+        <div style="text-align: center; flex: 1;">
+          <div style="font-weight: 800; font-size: 18px; color: var(--text);">PUSH</div>
+          <div style="font-size: 11px; color: var(--text-muted);">QR, Apps, and Receipts</div>
+        </div>
+        <div style="width: 20px; height: 1px; background: var(--border);"></div>
+        <div style="text-align: center; flex: 1;">
+          <div style="font-weight: 800; font-size: 18px; color: var(--text);">TRACK</div>
+          <div style="font-size: 11px; color: var(--text-muted);">Software & Sentiment analysis</div>
+        </div>
+        <div style="width: 20px; height: 1px; background: var(--border);"></div>
+        <div style="text-align: center; flex: 1;">
+          <div style="font-weight: 800; font-size: 18px; color: var(--text);">OPTIMIZE</div>
+          <div style="font-size: 11px; color: var(--text-muted);">Operations based on data</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STRATEGIC TAKEAWAY -->
+    <div style="background: var(--sidebar-bg); color: #fff; padding: 60px; border-radius: 32px; position: relative; overflow: hidden; margin-bottom: 40px;">
+      <div style="position: absolute; top: 0; right: 0; padding: 20px; opacity: 0.1; font-size: 120px; font-weight: 900; line-height: 0.8; font-family: 'Outfit';">LAZZAT</div>
+      <div class="takeaway-label" style="color: var(--gold);">Reputation Takeaway</div>
+      <h3 class="title" style="color: #fff; font-size: 28px; margin-bottom: 24px;">Reputation is Engineered</h3>
+      <p style="font-size: 16px; color: #aaa; max-width: 800px; line-height: 1.6;">
+        Restaurants like Osmow's or Chipotle don't just "get reviews"; they engineer them. By centering the <strong>Lazzat experience</strong> around digital reputation systems, we ensure that every guest becomes a promoter, fueling our growth across the Canadian multicultural market.
+      </p>
+    </div>
+  </div>
+
+  <!-- TAB 07: RETENTION STRATEGIES -->
+  <div id="retention" class="tab-content">
+    <div class="eyebrow">Loyalty Engineering</div>
+    <h2 class="title" style="font-size: 32px; margin-bottom: 60px;">Retention Strategies:<br>The Loyalty Ecosystem Loop</h2>
+
+    <!-- GRID: THE 8 PILLARS -->
+    <div class="grid-3" style="margin-bottom: 60px;">
+      <!-- Pillar 1 -->
+      <div class="takeaway-card" style="border-top-color: var(--accent);">
+        <h4 style="font-size: 14px; margin-bottom: 12px; color: var(--text);">01. Mobile App Loyalty</h4>
+        <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">The #1 retention layer. Points-per-dollar, tier systems, and app-only deals (Chipotle, Subway, Osmow's).</p>
+        <div style="font-size: 10px; color: var(--gold); font-weight: 800; text-transform: uppercase;">Engine: Digital Locking</div>
+      </div>
+      <!-- Pillar 2 -->
+      <div class="takeaway-card" style="border-top-color: var(--blue-text);">
+        <h4 style="font-size: 14px; margin-bottom: 12px; color: var(--text);">02. Delivery App Loop</h4>
+        <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">"Reorder again" prompts and repeat-user discounts inside Uber Eats/DoorDash ecosystems.</p>
+        <div style="font-size: 10px; color: var(--gold); font-weight: 800; text-transform: uppercase;">Engine: Marketplace Visibility</div>
+      </div>
+      <!-- Pillar 3 -->
+      <div class="takeaway-card" style="border-top-color: var(--gold);">
+        <h4 style="font-size: 14px; margin-bottom: 12px; color: var(--text);">03. CRM Email/SMS Engine</h4>
+        <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">"We miss you" offers, birthday rewards, and win-back coupons (10-30% off).</p>
+        <div style="font-size: 10px; color: var(--gold); font-weight: 800; text-transform: uppercase;">Engine: Data Remarketing</div>
+      </div>
+      <!-- Pillar 4 -->
+      <div class="takeaway-card" style="border-top-color: var(--green-text);">
+        <h4 style="font-size: 14px; margin-bottom: 12px; color: var(--text);">04. POS-Based Tracking</h4>
+        <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">Connecting offline purchases to digital retention via phone numbers and QR codes on receipts.</p>
+        <div style="font-size: 10px; color: var(--gold); font-weight: 800; text-transform: uppercase;">Engine: Offline/Online Bridge</div>
+      </div>
+      <!-- Pillar 5 -->
+      <div class="takeaway-card" style="border-top-color: var(--purple-text);">
+        <h4 style="font-size: 14px; margin-bottom: 12px; color: var(--text);">05. Behavioral Design</h4>
+        <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">Habit loops, progress bars ("80 points to free shawarma"), and reorder shortcuts.</p>
+        <div style="font-size: 10px; color: var(--gold); font-weight: 800; text-transform: uppercase;">Engine: Habit Loop</div>
+      </div>
+      <!-- Pillar 6 -->
+      <div class="takeaway-card" style="border-top-color: var(--blue-pill);">
+        <h4 style="font-size: 14px; margin-bottom: 12px; color: var(--text);">06. Franchise Retention</h4>
+        <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">Performance varies by location. Success depends on store-level service and consistency.</p>
+        <div style="font-size: 10px; color: var(--gold); font-weight: 800; text-transform: uppercase;">Engine: Service Quality</div>
+      </div>
+      <!-- Pillar 7 -->
+      <div class="takeaway-card" style="border-top-color: var(--red-pill);">
+        <h4 style="font-size: 14px; margin-bottom: 12px; color: var(--text);">07. Push Marketing</h4>
+        <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">Geo-targeted deals and cart abandonment reminders sent directly to the user's pocket.</p>
+        <div style="font-size: 10px; color: var(--gold); font-weight: 800; text-transform: uppercase;">Engine: Direct Trigger</div>
+      </div>
+      <!-- Pillar 8 -->
+      <div class="takeaway-card" style="border-top-color: var(--grey-text);">
+        <h4 style="font-size: 14px; margin-bottom: 12px; color: var(--text);">08. Pseudo-Subscription</h4>
+        <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">Weekly predictable deals and lunch combos of the day to create routine cycles.</p>
+        <div style="font-size: 10px; color: var(--gold); font-weight: 800; text-transform: uppercase;">Engine: Routine Creation</div>
+      </div>
+    </div>
+
+    <!-- THE 4-LAYER MENTAL MODEL -->
+    <div style="background: #fff; padding: 40px; border-radius: 24px; border: 1px solid var(--border); margin-bottom: 60px;">
+      <div class="takeaway-label">Habitualization Framework</div>
+      <h3 class="takeaway-title" style="margin-bottom: 32px;">The 4-Layer Retention Model</h3>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 20px;">
+        <div style="padding: 20px; background: var(--bg); border-radius: 16px; text-align: center;">
+          <div style="font-weight: 800; color: var(--accent); margin-bottom: 8px;">1. PRODUCT</div>
+          <p style="font-size: 11px; color: var(--text-muted);">The Baseline: Quality food & consistent portions.</p>
+        </div>
+        <div style="padding: 20px; background: var(--bg); border-radius: 16px; text-align: center;">
+          <div style="font-weight: 800; color: var(--blue-text); margin-bottom: 8px;">2. CONVENIENCE</div>
+          <p style="font-size: 11px; color: var(--text-muted);">Apps, Marketplace presence, & saved orders.</p>
+        </div>
+        <div style="padding: 20px; background: var(--bg); border-radius: 16px; text-align: center;">
+          <div style="font-weight: 800; color: var(--gold); margin-bottom: 8px;">3. REWARD</div>
+          <p style="font-size: 11px; color: var(--text-muted);">Points, Freebies, and tier-based status.</p>
+        </div>
+        <div style="padding: 20px; background: var(--bg); border-radius: 16px; text-align: center;">
+          <div style="font-weight: 800; color: var(--green-text); margin-bottom: 8px;">4. COMMS</div>
+          <p style="font-size: 11px; color: var(--text-muted);">SMS, Push Notifications, and Emails.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- STRATEGIC TAKEAWAY -->
+    <div style="background: var(--sidebar-bg); color: #fff; padding: 60px; border-radius: 32px; position: relative; overflow: hidden; margin-bottom: 40px;">
+      <div style="position: absolute; top: 0; right: 0; padding: 20px; opacity: 0.1; font-size: 120px; font-weight: 900; line-height: 0.8; font-family: 'Outfit';">LAZZAT</div>
+      <div class="takeaway-label" style="color: var(--gold);">Retention Insight</div>
+      <h3 class="title" style="color: #fff; font-size: 28px; margin-bottom: 24px;">Food Meets Fintech & CRM</h3>
+      <p style="font-size: 16px; color: #aaa; max-width: 800px; line-height: 1.6;">
+        In the modern QSR landscape, retention is no longer about loyalty cards; it's a <strong>data + app + delivery loop</strong>. Brands like Lazzat must operate as food companies powered by mini-fintech and CRM engines to convert one-time visitors into habitual, weekly buyers.
+      </p>
+    </div>
+  </div>
+
+  <!-- TAB 08: KEY TAKEAWAYS -->
+  <div id="takeaways" class="tab-content">
+    <div class="wrap-takeaways">
+      <div class="hero-takeaway">
+        <div style="position: absolute; top: 0; right: 0; padding: 20px; opacity: 0.05; font-size: 150px; font-weight: 900; line-height: 0.8; font-family: 'Outfit';">STRATEGY</div>
+        <h2>The white space no competitor owns</h2>
+        <p>Every brand in this matrix is either <strong>culturally anchored</strong> (Osmow's, Paramount, Tahini's) or <strong>functionally inclusive</strong> via customization (Chipotle, Subway). Not one operates as a genuine multiracial gathering brand rooted in subcontinental cuisine. That is Lazzat's uncontested territory.</p>
+      </div>
+
+      <div class="section-label">01 — Competitive positioning</div>
+      <div class="card-grid">
+        <div class="card-takeaway gold">
+          <div class="tag-status tag-opp">Opportunity</div>
+          <h3>No scaled subcontinental brand is truly "for everyone"</h3>
+          <p>Osmow's and Paramount are the closest competitors, but both remain culturally anchored to Lebanese/Middle Eastern identity. Lazzat enters as the first brand to plant subcontinental cuisine at a genuinely multiracial table — that's a first-mover advantage in a rapidly diversifying GTA market.</p>
+        </div>
+      </div>
+
+      <div class="section-label">02 — Digital & platform strategy</div>
+      <div class="card-grid">
+        <div class="card-takeaway blue">
+          <div class="tag-status tag-act">Action required</div>
+          <h3>Be present on all three delivery platforms from day one</h3>
+          <p>Every single competitor — from KFC to Tahini's — uses Uber Eats, DoorDash, and SkipTheDishes as discovery engines. For a new Brampton location, the Big 3 are non-negotiable for reaching mixed communities who don't know subcontinental food yet. Use them as top-of-funnel, then migrate regulars to a first-party app with a 15% discount offer inside every delivery bag.</p>
+        </div>
+        <div class="card-takeaway gold">
+          <div class="tag-status tag-act">Action required</div>
+          <h3>Google Business Profile is more important than Yelp in Canada</h3>
+          <p>Across all 10 competitors, Google Maps dominates local search. Priority one: claim and optimize the GBP with professional interior photography, dietary tags (Halal, Vegetarian, Gluten-Friendly), and aggressive early review solicitation via QR codes on receipts. A strong map pack presence intercepts customers at the exact moment of craving.</p>
+        </div>
+        <div class="card-takeaway purple">
+          <div class="tag-status tag-act">Plan for month 6+</div>
+          <h3>Launch a first-party app or loyalty portal once you have regulars</h3>
+          <p>Osmow's, Chipotle, and Subway all treat their apps as revenue protection — bypassing the 15–30% aggregator fee. Build the loyalty loop: POS QR codes → phone number capture → birthday reward email → push notification at 4:30 PM on a Thursday. This is the engine that turns a first visit into a weekly habit.</p>
+          <button class="ask" onclick="alert('Strategy Builder: Designing the Lazzat Loyalty Loop & App Features.')">Design the loyalty loop ↗</button>
+        </div>
+      </div>
+
+      <div class="section-label">03 — Social media playbook</div>
+      <div class="card-grid">
+        <div class="card-takeaway coral">
+          <div class="tag-status tag-act">Non-negotiable</div>
+          <h3>Short-form video (TikTok/Reels) is the primary growth channel</h3>
+          <p>Every high-threat competitor — Tahini's, Osmow's, Chipotle — dominates through short-form video. Tahini's lo-fi meme POVs and Chipotle's "unhinged" Gen Z humor are the playbooks to study. For Lazzat, the content angle is clear: show a mixed friend group (Jamaican, Filipino, South Asian, Arab) discovering and reacting to Tikka, Biryani, and Sajji. That IS the brand. Post 1–2x daily, peaking at 10:30 AM (pre-lunch decision), 4:30 PM (pre-dinner), and 9 PM+ (late-night craving).</p>
+        </div>
+        <div class="card-takeaway teal">
+          <div class="tag-status tag-opp">Untapped angle</div>
+          <h3>No competitor owns the "food education" content space</h3>
+          <p>The blog and SEO analysis reveals a gap: nobody is demystifying subcontinental cuisine for non-South-Asian audiences at scale. A "What is Sajji?" reel or "Your first time ordering Karahi" guide directly serves Lazzat's multiracial mission while capturing high-intent Google searches. This content doubles as SEO fuel and social discovery — Tahini's built its entire brand on this for Middle Eastern food.</p>
+        </div>
+      </div>
+
+      <div class="section-label">04 — SEO & local search</div>
+      <div class="card-grid">
+        <div class="card-takeaway blue">
+          <div class="tag-status tag-act">From launch</div>
+          <h3>Own "Halal restaurant Brampton" and adjacent terms</h3>
+          <p>The keyword opportunity is dual: own the category ("best subcontinental grill Brampton") and own the function ("halal catering GTA", "inclusive office lunch Brampton"). Competitors like Paramount built enormous authority through founder PR — Lazzat's "Multiracial Table" mission is inherently newsworthy in a city where 65%+ of residents are visible minorities. Pitch CBC Brampton and Toronto Star early.</p>
+        </div>
+        <div class="card-takeaway gold">
+          <div class="tag-status tag-act">Within 3 months</div>
+          <h3>Build city-level location pages and a catering sub-directory</h3>
+          <p>Programmatic local pages (/brampton/downtown, /brampton/trinity-common) with embedded maps and local schema markup drive long-tail "near me" traffic. A separate catering page targeting "halal catering Brampton" and "office lunch multicultural GTA" captures high-value B2B customers — the exact audience that would host a multiracial team lunch.</p>
+        </div>
+      </div>
+
+      <div class="section-label">05 — Reputation & retention</div>
+      <div class="card-grid">
+        <div class="card-takeaway purple">
+          <div class="tag-status tag-act">Engineer from day one</div>
+          <h3>Reviews are a system, not an afterthought</h3>
+          <p>Osmow's and Tahini's don't wait for organic reviews — they systematically drive them via QR codes on receipts, post-delivery app prompts, and loyalty notifications. Target 50+ Google reviews in the first 60 days. Respond to every review within 48 hours. A 4.5+ star rating on Maps before you hit 100 reviews is more important than any paid ad in the early phase.</p>
+        </div>
+        <div class="card-takeaway coral">
+          <div class="tag-status tag-warn">Watch carefully</div>
+          <h3>The Brampton QSR giants (Popeyes, KFC, Mary Brown's) are adding halal fast</h3>
+          <p>These chains aren't subcontinental, but they're aggressively using halal certification to capture Brampton's Muslim and South Asian population. Their threat is price and convenience, not cuisine quality or experience. Lazzat's counter-move is to make the dining experience itself irreplaceable — the atmosphere, the staff warmth, and the visible diversity of the guest mix are moats these chains structurally cannot replicate.</p>
+          <button class="ask" onclick="alert('Competitive Analysis: Counter-strategy against QSR chains using Halal as a growth lever.')">Counter-strategy ↗</button>
+        </div>
+      </div>
+
+      <div class="section-label">06 — The strategic summary</div>
+      <div class="action-row">
+        <div class="action-box">
+          <span>Positioning moat</span>
+          <p>Cuisine depth + genuine multiracial identity. No competitor can replicate both.</p>
+        </div>
+        <div class="action-box">
+          <span>Digital priority</span>
+          <p>Google GBP + Big 3 delivery apps at launch. First-party loyalty by month 6.</p>
+        </div>
+        <div class="action-box">
+          <span>Content engine</span>
+          <p>Short-form video showing mixed groups discovering subcontinental food, daily.</p>
+        </div>
+        <div class="action-box">
+          <span>SEO bet</span>
+          <p>"Halal catering GTA" and food education content — an entirely uncontested space.</p>
+        </div>
+        <div class="action-box">
+          <span>Reputation</span>
+          <p>50+ Google reviews in 60 days. QR on every receipt. Respond to everything.</p>
+        </div>
+        <div class="action-box">
+          <span>Long-term moat</span>
+          <p>The feeling of the room. No chain can engineer a genuinely multiracial atmosphere.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  function switchTab(e, tabId) {
+    if (e) e.preventDefault();
+    
+    // Clear active states
+    document.querySelectorAll('.tab-btn, .nav-item').forEach(el => el.classList.remove('active'));
+    
+    // Sync sidebar links and top buttons
+    const sidebarLink = document.querySelector(`.nav-item[href="#${tabId}"]`);
+    const tabBtn = document.querySelector(`.tab-btn[onclick*="'${tabId}'"]`);
+    
+    if (sidebarLink) sidebarLink.classList.add('active');
+    if (tabBtn) tabBtn.classList.add('active');
+    
+    // Switch active panel
+    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+    const targetContent = document.getElementById(tabId);
+    if (targetContent) {
+      targetContent.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+</script>
+
+</body>
+</html>

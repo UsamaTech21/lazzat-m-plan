@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lazzat Launch Campaign — 30-Day Blueprint</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+html { scroll-behavior: smooth; }
+
+/* REVEAL ANIMATIONS */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+:root {
+  --accent: #b5341a;
+  --gold: #c8960c;
+  --dark: #1c1a17;
+  --charcoal: #2e2b26;
+  --warm: #f7f3ee;
+  --muted: #7a7468;
+  --border: #e8e2d9;
+  --white: #fff;
+  --shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #fdfcfb;
+  color: var(--dark);
+  line-height: 1.7;
+}
+
+/* HERO */
+.hero {
+  min-height: 80vh;
+  background: var(--dark);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(circle at center, rgba(181, 52, 26, 0.15) 0%, transparent 70%);
+}
+
+.hero-content { position: relative; z-index: 2; max-width: 900px; }
+
+.campaign-label {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 24px;
+  padding: 8px 24px;
+  border: 1px solid rgba(200, 150, 12, 0.3);
+  border-radius: 100px;
+}
+
+.hero h1 {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(48px, 8vw, 82px);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 32px;
+  letter-spacing: -2px;
+}
+
+.hero-subtitle {
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 400;
+  margin-bottom: 40px;
+}
+
+.flame-divider {
+  width: 60px;
+  height: 3px;
+  background: var(--accent);
+  margin: 40px auto;
+}
+
+/* CONTAINER */
+.container { max-width: 1100px; margin: 0 auto; padding: 100px 40px; }
+
+/* SECTION */
+.section { margin-bottom: 120px; }
+
+.section-header { margin-bottom: 60px; }
+
+.section-num {
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--accent);
+  background: rgba(181, 52, 26, 0.05);
+  padding: 4px 12px;
+  border-radius: 100px;
+  margin-bottom: 16px;
+  display: inline-block;
+}
+
+.section-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--dark);
+  margin-bottom: 16px;
+}
+
+.section-subtitle {
+  font-size: 17px;
+  color: var(--muted);
+  max-width: 750px;
+}
+
+/* CARDS */
+.card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: var(--shadow);
+  margin-bottom: 32px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+}
+
+.stat-card {
+  padding: 24px;
+  background: #fdfcfb;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  text-align: center;
+}
+
+.stat-icon { font-size: 32px; margin-bottom: 16px; }
+.stat-title { font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+.stat-text { font-size: 14px; color: var(--muted); }
+
+/* TIMELINE */
+.timeline { position: relative; padding-left: 40px; border-left: 2px solid var(--border); margin-left: 10px; }
+.phase { position: relative; margin-bottom: 64px; }
+.phase::before {
+  content: '';
+  position: absolute;
+  left: -51px;
+  top: 8px;
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border: 4px solid var(--accent);
+  border-radius: 50%;
+}
+
+.phase-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--accent);
+  background: rgba(181, 52, 26, 0.05);
+  padding: 4px 16px;
+  border-radius: 100px;
+  margin-bottom: 16px;
+}
+
+.phase-title { font-family: 'Outfit', sans-serif; font-size: 24px; font-weight: 800; margin-bottom: 24px; }
+
+.checklist { list-style: none; }
+.checklist li {
+  position: relative;
+  padding-left: 28px;
+  margin-bottom: 16px;
+  font-size: 15px;
+}
+.checklist li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--gold);
+  font-weight: 900;
+}
+
+/* CREATIVE */
+.creative-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; }
+.creative-card { border: 1px solid var(--border); border-radius: 20px; overflow: hidden; background: #fff; }
+.creative-head { background: var(--dark); color: #fff; padding: 24px; }
+.creative-type { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--gold); margin-bottom: 8px; }
+.creative-name { font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 700; }
+.creative-body { padding: 24px; }
+
+/* HIGHLIGHT BOX */
+.highlight {
+  background: var(--dark);
+  color: #fff;
+  padding: 60px;
+  border-radius: 30px;
+  text-align: center;
+  margin: 80px 0;
+}
+.highlight-val { font-family: 'Outfit', sans-serif; font-size: 42px; font-weight: 800; color: var(--gold); margin-bottom: 16px; }
+
+/* BACK LINK */
+.back-btn {
+  position: fixed; top: 30px; left: 30px;
+  background: rgba(0,0,0,0.4);
+  color: #fff; text-decoration: none;
+  padding: 12px 24px; border-radius: 100px;
+  font-size: 12px; font-weight: 800;
+  letter-spacing: 2px; text-transform: uppercase;
+  z-index: 1000; backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+@media (max-width: 768px) {
+  .container { padding: 60px 24px; }
+  .hero h1 { font-size: 42px; }
+  .highlight { padding: 40px 24px; }
+}
+</style>
+</head>
+<body>
+
+<a href="index.html#s9" class="back-btn">← Go Back</a>
+
+<div class="hero">
+  <div class="hero-content">
+    <div class="campaign-label">Grand Opening Activation</div>
+    <h1>The Lazzat Ignition</h1>
+    <div class="hero-subtitle">A 30-Day Tactical Blueprint to Dominate the Brampton Grill Scene</div>
+    <div class="flame-divider"></div>
+    <div class="hero-tagline" style="font-family:'Outfit', sans-serif; font-style:italic; font-size:20px; opacity:0.8;">"Where Every Craving Has a Home"</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- OVERVIEW -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-num">01</div>
+      <h2 class="section-title">Campaign Overview</h2>
+      <p class="section-subtitle">This isn't a generic launch—it's a 30-day "Algorithm Training" sprint designed to anchor Lazzat as the premier multiracial halal grill in the Brampton psyche.</p>
+    </div>
+    
+    <div class="grid">
+      <div class="stat-card">
+        <div class="stat-icon">🎯</div>
+        <div class="stat-title">Objective</div>
+        <div class="stat-text">Establish Lazzat as Brampton's premier multiracial halal grill destination—where authentic tawa craft meets "Everyone's Table"—targeting 500+ guests in Month 1.</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">💰</div>
+        <div class="stat-title">Budget</div>
+        <div class="stat-text">$2,200 Monthly Spend: 50% Paid Social, 25% Influencers, 25% Content.</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">📊</div>
+        <div class="stat-title">KPIs</div>
+        <div class="stat-text">1,500+ IG Followers, 100+ Google Reviews (4.5+ ★), 20% Repeat Customer Rate.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-num">02</div>
+      <h2 class="section-title">Pre-Launch Timeline</h2>
+      <p class="section-subtitle">The foundation must be locked before the first sizzle hits the tawa.</p>
+    </div>
+
+    <div class="timeline">
+      <div class="phase">
+        <div class="phase-tag">Days -14 to -10</div>
+        <div class="phase-title">Digital Foundation</div>
+        <div class="card">
+          <ul class="checklist">
+            <li><strong>Infrastructure:</strong> GBP claimed with 50+ hero shots; website load time < 2.5s; HTML menu (no PDFs).</li>
+            <li><strong>Reviews & WiFi:</strong> Table QR codes printed; WiFi portal email capture live; staff verbal ask script rehearsed.</li>
+            <li><strong>Delivery:</strong> UberEats/Skip/DoorDash accounts live with professional menu photography.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-tag">Days -10 to -3</div>
+        <div class="phase-title">Content & Teaser Sprint</div>
+        <div class="card">
+          <ul class="checklist">
+            <li><strong>Hero Grid:</strong> Post 9 high-res images to IG (dark, moody, fire-lit) to create a cohesive brand hub.</li>
+            <li><strong>TikTok Countdown:</strong> Daily "Sizzle ASMR" and "Founders Story" videos to build local anticipation.</li>
+            <li><strong>Influencer Outreach:</strong> Confirm 5-10 local micro-influencers for Grand Opening Week coverage.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-tag">Final 72 Hours</div>
+        <div class="phase-title">Ignition Launch</div>
+        <div class="card">
+          <ul class="checklist">
+            <li><strong>Staff Drill:</strong> Final training on 'Dramatic Tawa Presentation' and review collection.</li>
+            <li><strong>Ad Launch:</strong> Meta ads go live targeting 5km radius with "Opening This Week" creative.</li>
+            <li><strong>Influencer Preview:</strong> Private soft-tasting for creators to ensure Day 1-2 content blitz.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CREATIVE -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-num">03</div>
+      <h2 class="section-title">Creative Requirements</h2>
+    </div>
+
+    <div class="creative-grid">
+      <div class="creative-card">
+        <div class="creative-head">
+          <div class="creative-type">Social Hub</div>
+          <div class="creative-name">Instagram Grid</div>
+        </div>
+        <div class="creative-body">
+          <p class="stat-text">9 Hero Posts minimum. Aesthetic: Dark, moody, fire-lit. Focus on the char, the steam, and the shared plate.</p>
+        </div>
+      </div>
+      <div class="creative-card">
+        <div class="creative-head">
+          <div class="creative-type">Discovery</div>
+          <div class="creative-name">TikTok/Reels</div>
+        </div>
+        <div class="creative-body">
+          <p class="stat-text">15-20 Clips. ASMR sizzle, kitchen hustle, and authentic customer reactions. Raw over polished.</p>
+        </div>
+      </div>
+      <div class="creative-card">
+        <div class="creative-head">
+          <div class="creative-type">Conversion</div>
+          <div class="creative-name">Meta Ad Assets</div>
+        </div>
+        <div class="creative-body">
+          <p class="stat-text">6 Variations. Video-first hooks: "Brampton's New Favorite," "halal grilled perfection."</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WEEK BY WEEK -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-num">04</div>
+      <h2 class="section-title">The Launch Month (Week-by-Week)</h2>
+    </div>
+
+    <div class="card">
+      <div class="phase-title" style="color:var(--accent)">Week 1: The Explosion</div>
+      <ul class="checklist">
+        <li><strong>Day 1:</strong> Pack the house via "First 100" offer. Focus on generating 20+ reviews immediately.</li>
+        <li><strong>Stories Blitz:</strong> 10+ Stories/day resharing guest UGC and showing kitchen energy.</li>
+        <li><strong>Weekend Push:</strong> Increase ad spend Friday-Sunday to capture maximum local foot traffic.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="phase-title" style="color:var(--gold)">Week 2-3: Algorithm Training</div>
+      <ul class="checklist">
+        <li><strong>Analyze:</strong> Identify which dish/post got most traction; double down on that content style.</li>
+        <li><strong>Retargeting:</strong> Serve ads to people who engaged Week 1 but didn't visit.</li>
+        <li><strong>Community:</strong> Start the "Meet the Chef" series to humanize the brand.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="phase-title">Week 4: Retention Lock</div>
+      <ul class="checklist">
+        <li><strong>Loyalty Blast:</strong> Announce digital loyalty rewards to Week 1-2 visitors via WhatsApp.</li>
+        <li><strong>Referral Program:</strong> Launch "Bring a Friend" offer to activate existing fans.</li>
+        <li><strong>Month 2 Prep:</strong> Review analytics and lock in content calendar based on Month 1 wins.</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="highlight">
+    <div class="highlight-val">"Where Every Craving Has a Home"</div>
+    <p style="opacity: 0.8; max-width: 600px; margin: 0 auto;">Everything in this launch plan serves the fundamental promise: theatrical food, genuine hospitality, and a place where Brampton belongs.</p>
+  </div>
+
+  <!-- CHANNEL SUMMARY -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-num">05</div>
+      <h2 class="section-title">Channel Strategy Summary</h2>
+    </div>
+    
+    <div class="grid">
+      <div class="stat-card">
+        <div class="stat-title">Instagram</div>
+        <div class="stat-text">The Brand Hub. High-quality feed, daily high-engagement Stories.</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-title">TikTok</div>
+        <div class="stat-text">Organic Reach. High volume (3-4/day), trending audio, BTS energy.</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-title">Google/GBP</div>
+        <div class="stat-text">Local Search. Weekly posts, daily review management, photo updates.</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  // REVEAL LOGIC
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('active');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.section, .hero, .card, .stat-card, .creative-card').forEach(el => {
+    el.classList.add('reveal');
+    revealObserver.observe(el);
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lazzat — 25-Post Content Calendar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fdfcfb;
+    --text: #2d2d2d;
+    --text-muted: #666;
+    --accent: #b5341a;
+    --accent-soft: #f8e9e6;
+    --gold: #c8960c;
+    --border: #eceae6;
+    --shadow: 0 4px 20px rgba(0,0,0,0.03);
+    
+    --color-background-primary: #ffffff;
+    --color-background-secondary: #f9f8f6;
+    --color-text-primary: #2d2d2d;
+    --color-text-secondary: #666;
+    --color-text-tertiary: #999;
+    --color-text-info: #b5341a;
+    --color-border-primary: #b5341a;
+    --color-border-secondary: #ddd;
+    --color-border-tertiary: #eceae6;
+    --border-radius-lg: 16px;
+    --border-radius-md: 8px;
+    --font-sans: 'Inter', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { 
+    font-family: var(--font-sans); 
+    background: var(--bg); 
+    color: var(--text); 
+    font-size: 16px; 
+    line-height: 1.8; 
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .main-container { max-width: 1200px; margin: 0 auto; padding: 60px 20px 100px; }
+  
+
+
+  .cal-wrap { padding: 1.5rem 0; font-family: var(--font-sans); }
+  .cal-header { margin-bottom: 2.5rem; }
+  .cal-header h2 { font-family: 'Outfit', sans-serif; font-size: 32px; font-weight: 700; color: var(--color-text-primary); margin: 0 0 8px; letter-spacing: -0.5px; }
+  .cal-header p { font-size: 15px; color: var(--color-text-secondary); margin: 0; }
+  
+  .legend { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 2rem; padding: 20px; background: #fff; border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow); }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  
+
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+  .card { background: var(--color-background-primary); border: 1px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 24px; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; box-shadow: var(--shadow); }
+  .card:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,0.06); }
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+  .post-num { font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 800; color: var(--color-text-tertiary); letter-spacing: 2px; text-transform: uppercase; }
+  .cat-pill { font-size: 10px; font-weight: 800; padding: 4px 12px; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .card-title { font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 700; color: var(--color-text-primary); margin: 0 0 10px; line-height: 1.3; }
+  .card-hook { font-size: 14px; color: var(--color-text-secondary); line-height: 1.6; margin: 0 0 16px; }
+  .card-tag { font-size: 11px; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 6px; }
+  .card-tag::after { content: "↓"; font-size: 14px; }
+  
+  .detail-box { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--color-border-tertiary); display: none; animation: slideDown 0.3s ease-out; }
+  .card.open { border-color: var(--accent); ring: 2px solid var(--accent-soft); }
+  .card.open .card-tag { display: none; }
+  .card.open .detail-box { display: block; }
+  
+  @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+  
+  .detail-row { margin-bottom: 16px; font-size: 13px; }
+  .detail-label { display: block; color: var(--color-text-tertiary); font-weight: 800; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .detail-val { color: var(--color-text-primary); line-height: 1.6; display: block; }
+  
+
+
+  @media (max-width: 768px) {
+    .grid { grid-template-columns: 1fr; }
+    .cal-header h2 { font-size: 26px; }
+  }
+
+  /* BACK BTN */
+  .back-btn { 
+    position: fixed; top: 20px; left: 20px; z-index: 1000;
+    text-decoration: none; color: var(--text-muted); font-size: 12px; font-weight: 600; 
+    padding: 10px 18px; background: #fff; border: 1px solid var(--border); border-radius: 100px;
+    box-shadow: var(--shadow); transition: all 0.3s; text-transform: uppercase; letter-spacing: 1px;
+  }
+  .back-btn:hover { color: var(--accent); transform: translateX(-4px); }
+</style>
+</head>
+<body>
+
+<a href="index.html#s9" class="back-btn">← Go Back</a>
+
+<div class="main-container">
+
+
+  <div class="cal-wrap">
+    <h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Lazzat 25-post content calendar — click any card to expand details</h2>
+    <div class="cal-header">
+      <h2>Lazzat — 25 Post Content Calendar</h2>
+      <p>Strategic menu-focused rollout. Click any card to see visual direction, captions, and posting tips.</p>
+    </div>
+    
+
+    <div class="legend" id="legend"></div>
+    <div class="grid" id="grid"></div>
+  </div>
+</div>
+
+<script>
+const cats = {
+  "Protein Skewers": { bg: "#FAC775", text: "#633806" },
+  "Family Platters": { bg: "#B5D4F4", text: "#0C447C" },
+  "Combos":          { bg: "#C0DD97", text: "#27500A" },
+  "Kids Menu":       { bg: "#F4C0D1", text: "#72243E" },
+  "Salads":          { bg: "#9FE1CB", text: "#085041" },
+  "Desserts":        { bg: "#F5C4B3", text: "#712B13" },
+  "Shakes & Juices": { bg: "#CCC0F0", text: "#3C3489" },
+};
+
+const posts = [
+  {
+    cat: "Protein Skewers",
+    title: "Meet the protein lineup",
+    hook: "Five proteins, one legendary charcoal grill. Which are you?",
+    visual: "Flat-lay of all 5 cubes side by side — chicken, lamb, goat, paneer, soya — on a dark slate, each labelled.",
+    caption: "Chicken. Lamb. Goat. Paneer. Soya. Charcoal-grilled to perfection, served with seasoned rice & salad. Your pick? 🔥 #Lazzat #ProteinCubes",
+    tip: "Post on Monday — strong start-of-week 'choose your fighter' energy."
+  },
+  {
+    cat: "Protein Skewers",
+    title: "Chicken breast cubes close-up",
+    hook: "Juicy, charcoal-kissed & endlessly satisfying.",
+    visual: "Macro close-up on the golden sear of chicken cubes, steam rising, rice blurred in background.",
+    caption: "100g → 200g → 300g of pure chicken breast cube goodness. Served with seasoned rice & fresh salad. Starting at $11.99. 🍗 #LazzatChicken",
+    tip: "Best for lunch-hour posts (11 am–1 pm)."
+  },
+  {
+    cat: "Protein Skewers",
+    title: "Lamb cubes — the premium choice",
+    hook: "Lamb on the skewer hits different.",
+    visual: "Dramatic overhead of the lamb cube bowl with rich sauce drizzle, vibrant salad scoops alongside.",
+    caption: "Premium lamb cubes. Charcoal grilled. Melt-in-your-mouth texture. 1 Skewer $13.99 | 2 Skewers $17.99 | 3 Skewers $25.99. #LazzatLamb #Grill",
+    tip: "Weekend evening post — lamb feels like a treat meal."
+  },
+  {
+    cat: "Protein Skewers",
+    title: "Goat cubes — bold & authentic",
+    hook: "The one for people who mean business.",
+    visual: "Side-angle of the goat cube platter, warm tones, sauce in foreground.",
+    caption: "Goat cubes: smoky, bold, unforgettable. 100–300G protein, served with seasoned rice & salad. From $13.99. 🐐 #LazzatGoat",
+    tip: "Pair with a 'fun fact about goat meat' in the caption to boost saves."
+  },
+  {
+    cat: "Protein Skewers",
+    title: "Paneer cubes — veg done right",
+    hook: "Who said vegetarian can't steal the show?",
+    visual: "Bright, clean shot of paneer cubes with vibrant salad colours, white rice base.",
+    caption: "Paneer cubes — Indian cheese, charcoal grilled, served fresh. 1 Skewer from $9.99. Because great flavour knows no meat. 🧀✨ #LazzatPaneer #VegOption",
+    tip: "Tag veggie/vegetarian community hashtags for extra reach."
+  },
+  {
+    cat: "Protein Skewers",
+    title: "Soya cubes — plant-based power",
+    hook: "Plant-based. Protein-packed. Charcoal perfected.",
+    visual: "Clean hero of soya cubes with a bold graphic overlay: 'Plant-based. No compromise.'",
+    caption: "Soya cubes are here for the plant-based crowd — without skimping on flavour. 100–300G | From $9.99. 🌱 #LazzatSoya #PlantBased",
+    tip: "Strong for Tuesday wellness content."
+  },
+  {
+    cat: "Protein Skewers",
+    title: "Skewer size guide",
+    hook: "1, 2 or 3 skewers — know before you go.",
+    visual: "Clean infographic-style post comparing 1/2/3 skewer options with protein weights and prices for all proteins.",
+    caption: "From a quick solo bite to a full feast — we've got every appetite covered. Swipe to find your size. 📏 #Lazzat #MenuGuide",
+    tip: "Carousel format. Save-friendly — educational posts get saved 3× more."
+  },
+  {
+    cat: "Family Platters",
+    title: "Whole chicken platter",
+    hook: "Feed the family. Feed the soul.",
+    visual: "Full overhead of the whole roasted chicken on a mound of green rice, rustic serving plate.",
+    caption: "The whole family on one tray. Whole chicken + seasoned rice, serving 3–4 people. $34.99. Dinner is sorted. 🍗 #LazzatFamily #FamilyDinner",
+    tip: "Thursday/Friday posts drive weekend orders."
+  },
+  {
+    cat: "Family Platters",
+    title: "Cut chicken platter",
+    hook: "All the flavour, already carved.",
+    visual: "Overhead of cut chicken portions arranged beautifully over seasoned rice.",
+    caption: "Whole cut chicken tray — every piece tender, every bite flavourful. Serves 3–4. $34.99. #LazzatPlatter",
+    tip: "Use 'dinner table' style framing to evoke warmth."
+  },
+  {
+    cat: "Family Platters",
+    title: "Salmon fish platter",
+    hook: "A whole fish. A whole mood.",
+    visual: "Dramatic side-profile of the whole salmon on rice, golden tones.",
+    caption: "Whole salmon fish tray — served on seasoned rice for 3–4 people. $29.99. The centrepiece your table deserves. 🐟 #LazzatSalmon",
+    tip: "Great for Friday — fish day resonates in many communities."
+  },
+  {
+    cat: "Family Platters",
+    title: "Platter comparison — pick your protein",
+    hook: "Salmon, chicken or cut chicken — which platter is yours?",
+    visual: "Side-by-side of all 3 platters with clean price labels, equal frame sizes.",
+    caption: "3 family platters. 1 dinner decision. All $29.99–$34.99. Serves 3–4. Tag who you're ordering with! 👇 #LazzatFamilyNight",
+    tip: "Ask a question to drive comments."
+  },
+  {
+    cat: "Combos",
+    title: "Chicken combo — the crowd favourite",
+    hook: "Chicken bowl + fries + drink. The trio that never disappoints.",
+    visual: "Top-down of combo tray: chicken bowl, golden fries and vibrant orange juice, all styled on dark surface.",
+    caption: "Chicken breast 2-skewer bowl + side fries (200g) + 500ml drink. $23.99. Lunch sorted, no stress. 🍟🥤 #LazzatCombo",
+    tip: "Lunchtime post (11 am–12 pm) for maximum engagement."
+  },
+  {
+    cat: "Combos",
+    title: "Premium combo — go big",
+    hook: "Lamb, goat or salmon. Plus fries. Plus a drink. You deserve it.",
+    visual: "Hero shot of the premium combo with lamb as the protein, stacked colours.",
+    caption: "Premium Combo — Lamb / Goat / Salmon 2-skewer bowl + fries (200g) + 500ml drink. $26.99. Treat yourself. 👑 #LazzatPremium",
+    tip: "Evening post targeting after-work orders."
+  },
+  {
+    cat: "Combos",
+    title: "Veg combo — plant-based & filling",
+    hook: "A full combo that happens to be vegetarian.",
+    visual: "Styled veg combo: paneer or soya bowl, fries, juice — bright colourful layout.",
+    caption: "Paneer or Soya 2-skewer bowl + fries (200g) + 500ml drink. $19.49. Veg never looked this good. 🌱🍟 #LazzatVegCombo",
+    tip: "Monday motivation / Meatless Monday angle."
+  },
+  {
+    cat: "Combos",
+    title: "Combo value breakdown",
+    hook: "See what you get for under $27.",
+    visual: "Graphic-style post breaking down combo components with icons: bowl + fries + drink = big value.",
+    caption: "Bowl. Fries. 500ml drink. One price. That's the Lazzat Combo way. Starting at $19.49. Which combo are you picking? #LazzatValue",
+    tip: "Infographic style performs well for saves."
+  },
+  {
+    cat: "Kids Menu",
+    title: "Kids bowl — built for little appetites",
+    hook: "Tiny portions, real flavour — made for kids.",
+    visual: "Cheerful, bright-lit shot of the kids paneer or chicken bowl with a small juice glass beside it.",
+    caption: "80G Chicken or Paneer tikka cubes + base + sauce. Made for the little ones. $5.99–$6.99. #LazzatKids #KidFriendly",
+    tip: "Weekend family dining content — Saturday mornings."
+  },
+  {
+    cat: "Kids Menu",
+    title: "Kids combo — meal & a drink",
+    hook: "Because kids deserve a combo too.",
+    visual: "Kids combo layout with the 10oz juice prominent and the bowl neatly beside it.",
+    caption: "Kids Bowl + 10 Oz drink (any flavour). Shake, blend or OJ. $9.99. Their face when it arrives? Priceless. 🧃 #LazzatKidsCombo",
+    tip: "Use relatable 'parent' tone in caption."
+  },
+  {
+    cat: "Kids Menu",
+    title: "Kids drink — real fruit, real good",
+    hook: "Real fruit shake, real smile.",
+    visual: "Close-up of the 10oz real-fruit shake garnished with a fresh orange slice.",
+    caption: "Real fruit shake. Real fruit blend. Fresh OJ. 10 Oz of happiness. $3.49. #LazzatJuice #KidsDrink",
+    tip: "Summer content angle — hot days + cold drinks."
+  },
+  {
+    cat: "Salads",
+    title: "6 salads, zero boring",
+    hook: "Your plate should look this good.",
+    visual: "Flat-lay of all 6 salads in their white bowls arranged in a 2×3 grid.",
+    caption: "Cucumber Tomato. Pickled Onion. Sweet Corn & Pepper. Bean Salad. Spiced Chickpea. Roasted Sweet Potato. 70G scoops — $5.99 each. Pick your colour. 🥗 #LazzatSalads",
+    tip: "Save-bait. People love 'pick your favourite' posts."
+  },
+  {
+    cat: "Salads",
+    title: "Sweet corn & pepper — the popular one",
+    hook: "Sweet corn, bell pepper, tamarind hint. That's flavour.",
+    visual: "Close macro of the sweet corn & pepper salad, vibrant yellow and red tones.",
+    caption: "Our fan-favourite salad: sweet corn + bell pepper + a hint of tamarind. 70G per scoop. $5.99. ⭐ #LazzatSweetCorn",
+    tip: "'Popular' badge posts drive social proof."
+  },
+  {
+    cat: "Salads",
+    title: "Spiced chickpea salad",
+    hook: "Chickpea. Lemon. Mild spice. Simple perfection.",
+    visual: "Overhead of spiced chickpea salad, textured and golden.",
+    caption: "Chickpeas + lemon + mild spice. Light, protein-rich, incredibly satisfying. $5.99 / 70G. 🌿 #LazzatChickpea #HealthyEating",
+    tip: "Wednesday wellness angle."
+  },
+  {
+    cat: "Desserts",
+    title: "Cheesecake trio — pick yours",
+    hook: "Oreo. Mango. Pistachio. This is not a drill.",
+    visual: "Three cheesecakes lined up side by side on dark surface, each clearly distinguished.",
+    caption: "Which cheesecake are you? Oreo / Mango / Pistachio — all $5.99. The hardest choice on the menu. 🍰 #LazzatDesserts #Cheesecake",
+    tip: "This/that poll in stories to match the post."
+  },
+  {
+    cat: "Desserts",
+    title: "Tiramisu — three ways",
+    hook: "Mango. Pistachio. Biscoff. We reimagined tiramisu.",
+    visual: "Elegant close-up of all three tiramisu slices on dark slate, plated beautifully.",
+    caption: "Classic Italian soul. Lazzat twist. Mango, Pistachio & Biscoff Tiramisu — $9.99 each. End your meal the right way. 🤌 #LazzatTiramisu",
+    tip: "Evening/dinner time post. Dessert content peaks after 7 pm."
+  },
+  {
+    cat: "Shakes & Juices",
+    title: "Signature shake trio",
+    hook: "Strawberry. Golden Mango. All Berry. The holy trinity.",
+    visual: "Three signature shakes in elegant glasses on a warm amber background, side by side.",
+    caption: "Real fruit. Real cream. Real satisfaction. Strawberry $6.99 | Golden Mango $6.99 | All Berry $7.99. Sip well. 🍓🥭🫐 #LazzatShakes",
+    tip: "Summer/hot weather content — tie to local temperature."
+  },
+  {
+    cat: "Shakes & Juices",
+    title: "Build your own shake",
+    hook: "Your base. Your fruits. Your indulgent flavour.",
+    visual: "Fun graphic: ingredient selector visual — base choices, 3 fruits, flavour add-on, with 'From $5.99' label.",
+    caption: "Pick your base → choose up to 3 fruits → add an indulgent flavour. Starting at $5.99. Build yours at Lazzat. 🎨 #BuildYourShake #LazzatJuice",
+    tip: "Interactive concept — drive DMs and in-store visits."
+  },
+];
+
+
+
+function renderLegend() {
+  const leg = document.getElementById("legend");
+  leg.innerHTML = "";
+  Object.entries(cats).forEach(([name, col]) => {
+    const item = document.createElement("div");
+    item.className = "legend-item";
+    item.innerHTML = `<span class="legend-dot" style="background:${col.bg}"></span>${name}`;
+    leg.appendChild(item);
+  });
+}
+
+function renderGrid() {
+  const grid = document.getElementById("grid");
+  grid.innerHTML = "";
+  const filtered = posts;
+  filtered.forEach((p, i) => {
+    const idx = posts.indexOf(p) + 1;
+    const col = cats[p.cat];
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <div class="card-top">
+        <span class="post-num">POST ${String(idx).padStart(2,"0")}</span>
+        <span class="cat-pill" style="background:${col.bg};color:${col.text}">${p.cat}</span>
+      </div>
+      <p class="card-title">${p.title}</p>
+      <p class="card-hook">${p.hook}</p>
+      <span class="card-tag">Expand Post Details</span>
+      <div class="detail-box">
+        <div class="detail-row"><span class="detail-label">Visual Direction</span><span class="detail-val">${p.visual}</span></div>
+        <div class="detail-row"><span class="detail-label">Caption Draft</span><span class="detail-val">${p.caption}</span></div>
+        <div class="detail-row"><span class="detail-label">Pro Tip</span><span class="detail-val">${p.tip}</span></div>
+
+      </div>
+    `;
+    card.onclick = () => {
+      const isOpen = card.classList.contains("open");
+      document.querySelectorAll(".card.open").forEach(c => c.classList.remove("open"));
+      if (!isOpen) card.classList.add("open");
+    };
+    grid.appendChild(card);
+  });
+}
+
+
+renderLegend();
+renderGrid();
+</script>
+
+</body>
+</html>

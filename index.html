@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lazzat — 360° Digital Marketing Master Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  html { scroll-behavior: smooth; }
+  
+  /* REVEAL ANIMATIONS */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  :root {
+    --bg: #fdfcfb;
+    --text: #2d2d2d;
+    --text-muted: #666;
+    --accent: #b5341a;
+    --accent-soft: #f8e9e6;
+    --gold: #c8960c;
+    --border: #eceae6;
+    --sidebar-bg: #111;
+    --shadow: 0 4px 20px rgba(0,0,0,0.03);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { 
+    font-family: 'Inter', -apple-system, sans-serif; 
+    background: var(--bg); 
+    color: var(--text); 
+    font-size: 16px; 
+    line-height: 1.8; 
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  .toc-nav { 
+    position: fixed; top: 0; left: 0; width: 260px; height: 100vh; 
+    background: var(--sidebar-bg); color: #fff; 
+    overflow-y: auto; padding: 40px 0; z-index: 100;
+  }
+  .toc-nav .logo { 
+    font-family: 'Outfit', sans-serif; color: var(--accent); 
+    font-size: 24px; font-weight: 800; padding: 0 32px 32px; 
+    letter-spacing: 3px; text-transform: uppercase;
+  }
+  .toc-nav a { 
+    display: block; color: #888; font-size: 13px; font-weight: 500;
+    padding: 10px 32px; text-decoration: none; 
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-left: 3px solid transparent;
+  }
+  .toc-nav a:hover, .toc-nav a.active { color: #fff; border-left-color: var(--accent); background: rgba(255,255,255,0.03); }
+  .toc-nav .sec-label { 
+    color: #444; font-size: 11px; font-weight: 700;
+    padding: 24px 32px 8px; text-transform: uppercase; letter-spacing: 1.5px; 
+  }
+
+  /* MAIN */
+  .main { margin-left: 260px; min-height: 100vh; }
+  .content-inner { max-width: 900px; margin: 0 auto; padding: 0 60px 100px; }
+
+  /* COVER */
+  .cover { 
+    min-height: 90vh; display: flex; flex-direction: column; justify-content: center; 
+    padding: 80px 0; border-bottom: 1px solid var(--border);
+    scroll-snap-align: start;
+  }
+  .cover .brand { 
+    font-family: 'Outfit', sans-serif; color: var(--accent); 
+    font-size: 84px; font-weight: 800; letter-spacing: 6px; line-height: 0.9; margin-bottom: 12px;
+  }
+  .cover .sub { 
+    color: var(--text-muted); font-size: 14px; font-weight: 600;
+    letter-spacing: 5px; text-transform: uppercase; margin-bottom: 40px;
+  }
+  .cover .title-wrap { margin: 40px 0; }
+  .cover .title { 
+    font-family: 'Outfit', sans-serif; font-size: 32px; font-weight: 700; 
+    color: var(--text); letter-spacing: -0.5px;
+  }
+  .cover .subtitle { color: var(--gold); font-size: 18px; font-weight: 500; margin-top: 8px; }
+  .cover .gold-line { width: 40px; height: 2px; background: var(--gold); margin: 32px 0; }
+  .cover .meta { color: var(--text-muted); font-size: 13px; font-weight: 500; }
+
+  /* SECTIONS */
+  .section { 
+    padding: 100px 0 60px; 
+    border-bottom: 1px solid var(--border); 
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    scroll-snap-align: start;
+  }
+  
+  /* HEADINGS */
+  .sec-title { 
+    font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 800; 
+    color: var(--accent); letter-spacing: 3px; text-transform: uppercase;
+    display: flex; align-items: center; gap: 12px; margin-bottom: 40px;
+  }
+  .sec-title .sec-num { font-size: 14px; opacity: 0.4; }
+  
+  .h2 { 
+    font-family: 'Outfit', sans-serif; font-size: 26px; font-weight: 700; 
+    color: var(--text); margin-bottom: 24px; letter-spacing: -0.5px;
+  }
+  .h3 { 
+    font-family: 'Outfit', sans-serif; color: var(--text); 
+    font-size: 18px; font-weight: 600; margin: 48px 0 16px; 
+  }
+  .h4 { 
+    color: var(--text-muted); font-size: 12px; font-weight: 700; 
+    margin: 32px 0 12px; text-transform: uppercase; letter-spacing: 1px; 
+  }
+
+  /* TEXT */
+  p { margin-bottom: 24px; color: var(--text-muted); }
+  strong { color: var(--text); font-weight: 600; }
+
+  /* COMPONENTS */
+  .highlight { 
+    background: var(--accent-soft); color: var(--accent); 
+    padding: 24px 32px; border-radius: 12px; margin: 32px 0; 
+    font-weight: 500; font-size: 17px; line-height: 1.6;
+  }
+  .info-box { 
+    background: #f0f4ff; color: #405ea5; 
+    padding: 20px 24px; border-radius: 8px; margin: 24px 0; font-size: 14px; line-height: 1.6;
+  }
+
+  /* LISTS */
+  ul { margin-bottom: 32px; }
+  ul li { 
+    padding: 8px 0 8px 28px; position: relative; font-size: 15px; 
+    color: var(--text-muted); border-bottom: 1px solid rgba(0,0,0,0.03);
+  }
+  ul li:last-child { border-bottom: none; }
+  ul li::before { 
+    content: ""; position: absolute; left: 0; top: 18px; 
+    width: 6px; height: 1px; background: var(--accent); 
+  }
+  
+  /* TABLES */
+  .tbl-wrap { margin: 32px 0 48px; background: #fff; border-radius: 16px; border: 1px solid var(--border); overflow: hidden; box-shadow: var(--shadow); }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th { background: #f9f8f6; color: var(--text); padding: 16px 24px; text-align: left; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--border); }
+  td { padding: 16px 24px; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text-muted); }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #fdfcfb; }
+
+  /* CARDS */
+  .icp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 32px 0; }
+  .icp-card { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 32px; box-shadow: var(--shadow); }
+  .icp-header { font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 20px; color: var(--text); }
+  .icp-header span { color: var(--accent); opacity: 0.8; }
+  .icp-row { display: flex; border-bottom: 1px solid var(--border); padding: 10px 0; font-size: 13px; }
+  .icp-row:last-child { border-bottom: none; }
+  .icp-key { color: var(--text-muted); width: 100px; font-weight: 600; text-transform: uppercase; font-size: 10px; letter-spacing: 1px; }
+  .icp-val { color: var(--text); flex: 1; }
+
+  /* JOURNEY */
+  .journey { margin: 48px 0; }
+  .journey-step { display: flex; gap: 24px; margin-bottom: 8px; }
+  .journey-dot { width: 24px; display: flex; flex-direction: column; align-items: center; padding-top: 6px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+  .line { width: 1px; background: var(--border); flex: 1; margin: 8px 0; }
+  .journey-content { flex: 1; padding-bottom: 32px; }
+  .journey-title { font-family: 'Outfit', sans-serif; font-weight: 700; color: var(--text); font-size: 16px; margin-bottom: 8px; }
+
+  /* BUDGET */
+  .budget-item { margin-bottom: 16px; }
+  .budget-label { font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+  .budget-bar-wrap { background: #f0f0f0; border-radius: 100px; height: 8px; overflow: hidden; }
+  .budget-bar { height: 100%; border-radius: 100px; background: var(--accent); transition: width 1s ease-out; }
+  .budget-bar.gold { background: var(--gold); }
+  .budget-bar.dark { background: #222; }
+  .budget-bar.green { background: #27ae60; }
+  .budget-bar.orange { background: #e67e22; }
+  .budget-val { font-size: 13px; font-weight: 700; color: var(--text); margin-top: 4px; }
+
+  /* UTILS */
+  .badge { display: inline-block; padding: 2px 10px; border-radius: 100px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+  .badge.red { background: #fde8e8; color: #C0392B; }
+  .badge.green { background: #e8f5e9; color: #27ae60; }
+  .badge.orange { background: #fff4e5; color: #e67e22; }
+  .badge.gold { background: #fff9e6; color: var(--gold); }
+
+
+  /* PRINT */
+  @media print {
+    .toc-nav { display: none; }
+    .main { margin-left: 0; }
+    .content-inner { max-width: 100%; padding: 0; }
+    .section { page-break-inside: avoid; border-bottom: 2pt solid #eee; }
+    body { background: #fff; font-size: 12pt; }
+  }
+
+  /* ── MOBILE HEADER ── */
+  .mobile-header {
+    display: none;
+    position: fixed; top: 0; left: 0; right: 0; height: 64px;
+    background: rgba(17,17,17,0.95); backdrop-filter: blur(10px);
+    z-index: 1000; padding: 0 20px;
+    align-items: center; justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .mobile-logo { font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 800; color: var(--gold); letter-spacing: 1px; }
+  .menu-toggle { 
+    background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; padding: 10px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  
+  .mobile-nav {
+    position: fixed; top: 64px; left: 0; right: 0; bottom: 0;
+    background: var(--sidebar-bg); z-index: 999;
+    padding: 40px 20px; transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto;
+  }
+  .mobile-nav.active { transform: translateX(0); }
+  .mobile-nav a { padding: 16px 20px; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #888; text-decoration: none; display: block; }
+  .mobile-nav a.active { color: #fff; }
+
+  @media (max-width: 1000px) {
+    .toc-nav { display: none; }
+    .mobile-header { display: flex; }
+    .main { margin-left: 0; padding-top: 64px; }
+    .content-inner { padding: 0 32px 100px; }
+    .cover .brand { font-size: 60px; }
+    .icp-grid { grid-template-columns: 1fr; }
+    .todo-stats { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 600px) {
+    .content-inner { padding: 0 20px 60px; }
+    .cover .brand { font-size: 40px; }
+    .h2 { font-size: 22px; }
+    .sec-title { margin-bottom: 24px; }
+    .tbl-wrap { overflow-x: auto; }
+  }
+
+  /* CUSTOM SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+  ::-webkit-scrollbar-thumb:hover { background: #d0ceca; }
+
+  /* CHECKLIST WIDGET STYLES */
+  .todo-wrap { padding: 1rem 0 2rem; }
+  .todo-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
+  .todo-stat-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center; box-shadow: var(--shadow); }
+  .todo-stat-num { font-family: 'Outfit', sans-serif; font-size: 28px; font-weight: 700; color: var(--text); line-height: 1; }
+  .todo-stat-lbl { font-size: 11px; font-weight: 700; color: var(--text-muted); margin-top: 6px; text-transform: uppercase; letter-spacing: 1px; }
+  
+  .todo-progress-bar-bg { background: #eee; border-radius: 100px; height: 8px; margin-bottom: 24px; overflow: hidden; }
+  .todo-progress-bar-fill { height: 100%; border-radius: 100px; background: #1D9E75; transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+  .todo-progress-label { font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 8px; }
+  
+  .todo-category { margin-bottom: 24px; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; background: #fff; box-shadow: var(--shadow); }
+  .todo-cat-header { padding: 18px 24px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border); background: #f9f8f6; }
+  .todo-cat-icon { font-size: 18px; }
+  .todo-cat-title { font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 700; color: var(--text); flex: 1; }
+  .todo-cat-count { font-size: 12px; font-weight: 700; color: var(--gold); background: var(--bg); padding: 2px 10px; border-radius: 100px; border: 1px solid var(--border); }
+  
+  .todo-task-row { display: flex; align-items: flex-start; gap: 16px; padding: 16px 24px; border-bottom: 1px solid rgba(0,0,0,0.03); cursor: pointer; transition: all 0.2s; }
+  .todo-task-row:last-child { border-bottom: none; }
+  .todo-task-row:hover { background: #fdfcfb; }
+  .todo-task-row.done .todo-task-text { text-decoration: line-through; color: #aaa; }
+  
+  .todo-checkbox { width: 20px; height: 20px; border-radius: 6px; border: 2px solid var(--border); flex-shrink: 0; margin-top: 2px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; background: #fff; }
+  .todo-checkbox.checked { background: #1D9E75; border-color: #1D9E75; }
+  .todo-checkbox.checked::after { content: ''; width: 10px; height: 6px; border-left: 2px solid #fff; border-bottom: 2px solid #fff; transform: rotate(-45deg) translateY(-1px); display: block; }
+  
+  .todo-task-text { font-size: 14px; color: var(--text); line-height: 1.6; flex: 1; }
+  .todo-reset-btn { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700; color: var(--text-muted); background: #fff; border: 1px solid var(--border); border-radius: 100px; cursor: pointer; padding: 6px 16px; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 1px; transition: all 0.2s; }
+  .todo-reset-btn:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
+
+  /* Task link buttons inside checklist rows */
+  .task-link {
+    display: inline-block; margin-left: 12px; padding: 4px 12px;
+    background: var(--accent); color: #fff; border-radius: 6px;
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.5px; text-decoration: none; vertical-align: middle;
+    box-shadow: 0 2px 4px rgba(181, 52, 26, 0.2);
+    transition: opacity 0.2s;
+  }
+  .task-link:hover { opacity: 0.85; }
+</style>
+</head>
+<body>
+
+<!-- MOBILE HEADER -->
+<header class="mobile-header">
+  <div class="mobile-logo">LAZZAT</div>
+  <button class="menu-toggle" id="menuToggle">☰</button>
+</header>
+
+<div class="mobile-nav" id="mobileNav">
+  <div class="sec-label">Sections</div>
+  <a href="#cover" onclick="toggleMenu()" style="display: none;">Cover</a>
+  <a href="usp-section.html" onclick="toggleMenu()" style="display: none;">1. Brand Foundation</a>
+  <a href="#s2" onclick="toggleMenu()" style="display: none;">2. Platform Ecosystem</a>
+  <a href="#s3" onclick="toggleMenu()" style="display: none;">3. SEO & Local Search</a>
+  <a href="#s4" onclick="toggleMenu()" style="display: none;">4. Review Management</a>
+  <a href="#s5" onclick="toggleMenu()" style="display: none;">5. Rush Management</a>
+  <a href="#s6" onclick="toggleMenu()" style="display: none;">6. Retention System</a>
+  <a href="#s9" onclick="toggleMenu()">1. Marketing To-Do List</a>
+  <a href="#s10" onclick="toggleMenu()">2. Data & Communication</a>
+  <a href="eid-deals.html" onclick="toggleMenu()">3. Eid Deals Campaign</a>
+</div>
+
+<!-- SIDEBAR NAV -->
+<nav class="toc-nav">
+  <div class="logo">LAZZAT</div>
+  <div class="sec-label">Sections</div>
+  <a href="#cover" style="display: none;">Cover</a>
+  <a href="usp-section.html" style="display: none;">1. Brand Foundation</a>
+  <a href="#s2" style="display: none;">2. Platform Ecosystem</a>
+  <a href="#s3" style="display: none;">3. SEO & Local Search</a>
+  <a href="#s4" style="display: none;">4. Review Management</a>
+  <a href="#s5" style="display: none;">5. Rush Management</a>
+  <a href="#s6" style="display: none;">6. Retention System</a>
+  <a href="#s9">1. Marketing To-Do List</a>
+  <a href="#s10">2. Data & Communication</a>
+  <a href="eid-deals.html">3. Eid Deals Campaign</a>
+</nav>
+
+<div class="main">
+  <div class="content-inner">
+
+<!-- COVER -->
+<div class="cover" id="cover" style="display: none;">
+  <div class="brand">LAZZAT</div>
+  <div class="sub">Where Every Craving Has a Home</div>
+  
+  <div class="gold-line"></div>
+  
+  <div class="title-wrap">
+    <div class="title">360° Digital Marketing Master Plan</div>
+    <div class="subtitle">Brampton's Premium Grill Experience — Strategic Growth Roadmap 2026</div>
+  </div>
+
+  <div class="meta">
+    Proprietary & Confidential Strategy<br>
+    Lazzat Leadership Team Only
+  </div>
+</div>
+
+<!-- STRATEGIC FOUNDATION -->
+<div class="content-inner" style="padding-top: 60px; padding-bottom: 0; display: none;">
+  <p style="font-size: 14px; color: var(--text-muted); font-style: italic; border-left: 2px solid var(--gold); padding-left: 20px;">
+    Based on my <a href="competitor-analysis.html" style="color: var(--accent); font-weight: 700; text-decoration: none; border-bottom: 1px solid var(--accent-soft);">competitor analysis</a> of similar restaurants like Lazzat in Brampton, I created this master plan.
+  </p>
+</div>
+
+<!-- ══ SECTION 1 ══ -->
+<!-- SECTION 1 REMOVED AND MOVED TO usp-section.html -->
+
+
+<!-- ══ SECTION 2 ══ -->
+<div class="section" id="s2" style="display: none;">
+  <div class="sec-title"><span class="sec-num">2</span> PLATFORM & LISTING ECOSYSTEM</div>
+  <p>Before a single social post goes live, Lazzat must own its presence across every discovery and listing platform. This is the foundation of the customer's first encounter with the brand.</p>
+
+  <div class="h2">2.1 — Social & Owned Platforms</div>
+  <div class="tbl-wrap"><table>
+    <tr><th>Platform</th><th>Priority</th><th>Purpose</th><th>Day 1 Action</th></tr>
+    <tr><td><strong>Instagram</strong></td><td><span class="badge red">🔴 Critical</span></td><td>Brand hub, food photography, Reels, Stories</td><td>Create @lazzat.brampton, complete bio, 9 hero posts scheduled before launch</td></tr>
+    <tr><td><strong>TikTok</strong></td><td><span class="badge red">🔴 Critical</span></td><td>Primary organic discovery engine</td><td>Create account, post first behind-the-scenes on Day 1</td></tr>
+    <tr><td><strong>Facebook Page</strong></td><td><span class="badge orange">🟠 High</span></td><td>35+ audience, events, community groups</td><td>Create page, all details filled, link to Instagram</td></tr>
+    <tr><td><strong>WhatsApp Business</strong></td><td><span class="badge orange">🟠 High</span></td><td>Retention, direct broadcast, VIP list</td><td>Set up profile, auto-replies, broadcast list structure</td></tr>
+    <tr><td><strong>Website (lazzat.ca)</strong></td><td><span class="badge orange">🟠 High</span></td><td>Menu, reservations, SEO anchor</td><td>Mobile speed, online ordering, reservation widget live</td></tr>
+    <tr><td><strong>YouTube / Shorts</strong></td><td><span class="badge yellow">🟡 Medium</span></td><td>Searchable video content</td><td>Create channel, repurpose TikToks as Shorts</td></tr>
+    <tr><td><strong>Pinterest</strong></td><td><span class="badge yellow">🟡 Medium</span></td><td>Long-tail SEO, passive food imagery traffic</td><td>Create account, pin food photos weekly</td></tr>
+    <tr><td><strong>Nextdoor</strong></td><td><span class="badge yellow">🟡 Medium</span></td><td>Hyperlocal Brampton neighbourhood discovery</td><td>Claim listing, post opening announcement</td></tr>
+    <tr><td><strong>LinkedIn</strong></td><td><span class="badge green">🟢 Low-Med</span></td><td>B2B catering, corporate clients, press</td><td>Create company page</td></tr>
+  </table></div>
+
+  <div class="h2">2.2 — Discovery & Listing Platforms</div>
+  <p>These are not social media — they are <strong>search destinations</strong>. A customer searching 'halal grill Brampton' on any of these must find Lazzat with a complete, photo-rich listing.</p>
+  <div class="tbl-wrap"><table>
+    <tr><th>Platform</th><th>Action Required</th><th>Why It Matters</th></tr>
+    <tr><td><strong>Google Business Profile</strong></td><td>Claim, verify, complete all fields, upload 50+ photos at launch</td><td>#1 driver of 'near me' searches — absolute priority</td></tr>
+    <tr><td><strong>Yelp</strong></td><td>Claim listing, respond to all early reviews within 2 hours</td><td>10,766 monthly searches for Indian food within 15mi of Brampton</td></tr>
+    <tr><td><strong>TripAdvisor</strong></td><td>Create profile, solicit early reviews from opening guests</td><td>Tourists and non-locals discovering Brampton</td></tr>
+    <tr><td><strong>Zomato</strong></td><td>Create listing with full menu, pricing, photos</td><td>Growing with newer South Asian immigrants using it by habit</td></tr>
+    <tr><td><strong>UberEats</strong></td><td>Launch with professional photos. Use Uber Ads from Month 2</td><td>Discovery + delivery — also a marketing channel</td></tr>
+    <tr><td><strong>SkipTheDishes</strong></td><td>List with high-quality photos and complete menu</td><td>Canada-dominant delivery platform</td></tr>
+    <tr><td><strong>DoorDash</strong></td><td>List and monitor</td><td>Growing rapidly in GTA</td></tr>
+    <tr><td><strong>iOrders (direct ordering)</strong></td><td>Integrate into website — commission free</td><td>Own your customer data. Avoid 30% delivery fees on direct orders</td></tr>
+    <tr><td><strong>OpenTable</strong></td><td>Set up reservation system by Month 2</td><td>Formal reservation management + discovery network</td></tr>
+    <tr><td><strong>Halal apps (HalalTrip, Zabihah)</strong></td><td>Submit listing</td><td>Muslim diaspora specifically searching halal-certified restaurants</td></tr>
+    <tr><td><strong>Foursquare / Swarm</strong></td><td>Claim listing</td><td>Check-in social proof, location tagging</td></tr>
+  </table></div>
+</div>
+
+
+
+
+
+
+
+<!-- ══ SECTION 3 ══ -->
+<div class="section" id="s3" style="display: none;">
+  <div class="sec-title"><span class="sec-num">3</span> SEO & LOCAL SEARCH DOMINATION</div>
+
+  <div class="h2">3.1 — Google Business Profile Optimization</div>
+  <ul>
+    <li><strong>Categories:</strong> Primary = "Pakistani Restaurant" | Secondary = "Indian Restaurant", "Grill Restaurant", "Halal Restaurant"</li>
+    <li><strong>Description:</strong> Include keywords naturally — "Lazzat is Brampton's halal grill restaurant, serving tandoori, BBQ, and fusion dishes in a welcoming multiracial atmosphere..."</li>
+    <li><strong>Photos:</strong> 50+ at launch — Food (30), Interior (10), Exterior (5), Team (5). Add new photos weekly.</li>
+    <li><strong>Google Posts:</strong> Post every week — promotions, events, new menu items. Appear directly in search results.</li>
+    <li><strong>Q&A:</strong> Pre-populate 8–10 Q&As before launch — "Is everything halal?", "Do you take reservations?", "Is there parking?", "What's the price range?"</li>
+    <li><strong>Reviews:</strong> Target 25 reviews in first 30 days. Respond to every single one.</li>
+  </ul>
+
+  <div class="h2">3.2 — Website SEO Priorities</div>
+  <ul>
+    <li>Page titles: "Lazzat — Halal Grill Restaurant Brampton" on every page</li>
+    <li>Local schema markup: Restaurant type, hours, menu, location structured data</li>
+    <li>Menu must be an HTML page (not just PDF) so Google can index individual dishes</li>
+    <li>Blog from Month 2: "Best Halal Restaurants in Brampton", "Lazzat's Tandoori Grill Story" — long-tail keywords competitors ignore completely</li>
+    <li>Mobile speed: under 2.5 seconds. Test with Google PageSpeed Insights.</li>
+    <li>NAP consistency: identical Name, Address, Phone across every listing</li>
+  </ul>
+</div>
+
+<!-- ══ SECTION 4 ══ -->
+<div class="section" id="s4" style="display: none;">
+  <div class="sec-title"><span class="sec-num">4</span> REVIEW & REPUTATION MANAGEMENT</div>
+
+  <div class="h2">4.1 — Review Collection System</div>
+  <div class="tbl-wrap"><table>
+    <tr><th>Touchpoint</th><th>Action</th><th>Tool</th></tr>
+    <tr><td><strong>At table (end of meal)</strong></td><td>Staff verbal ask + QR code card linking to Google Review</td><td>Custom QR code (free)</td></tr>
+    <tr><td><strong>Receipt / bill folder</strong></td><td>"Loved your meal? 30 seconds on Google means everything to us." + QR</td><td>Printed insert</td></tr>
+    <tr><td><strong>WiFi login</strong></td><td>Email capture + review request email sent 2 hours after visit</td><td>Bloom Intelligence / Heymarket</td></tr>
+    <tr><td><strong>WhatsApp follow-up</strong></td><td>24hr after visit: "Hope you enjoyed! Here's a link to leave us a review."</td><td>WhatsApp Business broadcast</td></tr>
+    <tr><td><strong>Delivery orders</strong></td><td>Review prompt via UberEats/Skip automatic system</td><td>Built-in platform feature</td></tr>
+  </table></div>
+
+  <div class="h2">4.2 — Review Targets by Month</div>
+  <div class="tbl-wrap"><table>
+    <tr><th>Month</th><th>Google Reviews</th><th>Average Rating</th><th>Yelp</th><th>TripAdvisor</th></tr>
+    <tr><td>Month 1</td><td>25+</td><td>4.4+</td><td>10+</td><td>5+</td></tr>
+    <tr><td>Month 3</td><td>75+</td><td>4.5+</td><td>25+</td><td>15+</td></tr>
+    <tr><td>Month 6</td><td>150+</td><td>4.5+</td><td>50+</td><td>30+</td></tr>
+    <tr><td>Month 12</td><td>300+</td><td>4.5+</td><td>100+</td><td>60+</td></tr>
+  </table></div>
+</div>
+
+<!-- ══ SECTION 5 ══ -->
+<div class="section" id="s5" style="display: none;">
+  <div class="sec-title"><span class="sec-num">5</span> RUSH & CROWD MANAGEMENT SYSTEM</div>
+  <div class="info-box">No marketing plan succeeds if the restaurant can't manage the demand it generates. A guest who waits 45 minutes without communication never comes back and leaves a 2-star review. A guest who waits 30 minutes with a drink in hand and a text update becomes a loyal customer.</div>
+
+  <div class="h2">5.1 — Reservation System Setup</div>
+  <ul>
+    <li><strong>Platform:</strong> OpenTable or Yelp Guest Manager — both offer waitlist + table management + discovery</li>
+    <li>Enable online booking from: Google Business Profile, Instagram Bio link, Facebook page, and website</li>
+    <li>Friday and Saturday: reservations required for groups of 4+</li>
+    <li>No-show protection: credit card required for groups of 6+ on busy nights</li>
+    <li>Automated reminders: confirmation immediately + 24hr reminder + day-of reminder 3 hours before</li>
+  </ul>
+
+
+
+
+</div>
+
+<!-- ══ SECTION 6 ══ -->
+<div class="section" id="s6" style="display: none;">
+  <div class="sec-title"><span class="sec-num">6</span> CUSTOMER RETENTION ECOSYSTEM</div>
+
+  <div class="h2">6.1 — Digital Loyalty Program</div>
+  <div class="highlight">No direct competitor in Brampton's South Asian restaurant segment has a formal digital loyalty program. This is Lazzat's first-mover opportunity.</div>
+  <ul>
+    <li><strong>Tool:</strong> Stamp Me, TastyRewards, or Square Loyalty (integrated with POS)</li>
+    <li><strong>Mechanic:</strong> Every $10 spent = 1 point. 100 points = $10 off. Simple and transparent.</li>
+    <li><strong>Bonus points:</strong> Double on birthdays, first visit, and special events</li>
+    <li><strong>Enrolment:</strong> QR at table, link in WhatsApp, Instagram bio. Collect: name, email, phone, birthday.</li>
+    <li><strong>Nudges:</strong> Automated "You're 20 points away from your reward!" emails</li>
+    <li><strong>VIP Tier:</strong> $500+ lifetime spend = "Lazzat Insider" — priority reservation, chef's welcome, first access to new menu items</li>
+  </ul>
+
+  <div class="h2">9.2 — Email Marketing (Untouched by Every Competitor)</div>
+  <div class="h4">List Building Sources:</div>
+  <ul>
+    <li>Reservation system (OpenTable / iOrders) — email captured at booking</li>
+    <li>WiFi login portal — email captured on connect</li>
+    <li>Loyalty program signup</li>
+    <li>Direct online ordering via iOrders</li>
+    <li>Instagram "Join our list" link in bio</li>
+  </ul>
+  <div class="h2">6.2 — Email Marketing Workflow</div>
+  <div class="h4">Monthly Email Calendar:</div>
+  <div class="tbl-wrap"><table>
+    <tr><th>Week</th><th>Email Type</th><th>Content</th></tr>
+    <tr><td>Week 1</td><td>Monthly Newsletter</td><td>"What's New at Lazzat" — new dish, upcoming event, staff spotlight</td></tr>
+    <tr><td>Week 2</td><td>Deal Email</td><td>"This Weekend Only: [Offer]" — urgency-driven</td></tr>
+    <tr><td>Week 3</td><td>Cultural / Community</td><td>Tied to a cultural moment (Eid, cricket, Vaisakhi) if applicable</td></tr>
+    <tr><td>Week 4</td><td>Social Proof</td><td>Customer spotlight or review highlight</td></tr>
+    <tr><td>Automated</td><td>Birthday Email</td><td>Sent 7 days before birthday: "Celebrate at Lazzat — 20% off this month"</td></tr>
+    <tr><td>Automated</td><td>Re-engagement</td><td>No visit in 60 days: "We Miss You — Here's 15% Off Your Next Visit"</td></tr>
+  </table></div>
+  <div class="h4">Tool: Mailchimp (free to 500 contacts) → Klaviyo as list grows</div>
+
+  <div class="h2">6.3 — WhatsApp Broadcast Calendar</div>
+  <div class="tbl-wrap"><table>
+    <tr><th>Broadcast Type</th><th>Frequency</th><th>Message Style</th></tr>
+    <tr><td>Weekend Special</td><td>Every Wednesday</td><td>Short, food-first: "[Dish] is on special this weekend. Book your table: [link]"</td></tr>
+    <tr><td>New Menu Drop</td><td>When applicable</td><td>Exclusive feel: "Something new just hit our menu 🔥 [Photo]. First weekend only."</td></tr>
+    <tr><td>Event Announcement</td><td>10 days before event</td><td>Full details: date, time, what's special, booking link</td></tr>
+    <tr><td>Ramadan / Eid</td><td>Seasonal</td><td>Warm, cultural, celebratory tone with Arabic greeting</td></tr>
+    <tr><td>Re-engagement</td><td>Monthly</td><td>"It's been a while! Your table is waiting — here's something special for coming back."</td></tr>
+  </table></div>
+</div>
+
+<!-- ══ SECTION 9 ══ -->
+<div class="section" id="s9">
+  <div class="sec-title"><span class="sec-num">1</span> MARKETING TO-DO LIST</div>
+  <div class="h2">1.1 — Implementation Tracker</div>
+  <p>Use this interactive checklist to track Lazzat's marketing rollout. Progress is saved automatically to your browser.</p>
+
+  <div class="todo-wrap">
+    <div class="todo-stats">
+      <div class="todo-stat-card"><div class="todo-stat-num" id="total-count">0</div><div class="todo-stat-lbl">Total</div></div>
+      <div class="todo-stat-card"><div class="todo-stat-num" id="done-count">0</div><div class="todo-stat-lbl">Done</div></div>
+      <div class="todo-stat-card"><div class="todo-stat-num" id="pct">0%</div><div class="todo-stat-lbl">Complete</div></div>
+    </div>
+
+    <div class="todo-progress-label" id="prog-label">0 of 0 done</div>
+    <div class="todo-progress-bar-bg"><div class="todo-progress-bar-fill" id="prog-fill" style="width:0%"></div></div>
+    <button class="todo-reset-btn" id="reset">Reset all progress</button>
+
+    <div id="todo-list"></div>
+  </div>
+
+  <div class="h2">1.2 — Marketing Deliverables & Frequency</div>
+  <p>The core output required to maintain Lazzat's digital presence and growth momentum.</p>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Deliverable</th>
+          <th>Frequency</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Content Calendar</strong></td><td><span class="badge gold">1 Month</span></td></tr>
+        <tr><td><strong>Instagram Reels</strong></td><td><span class="badge orange">3/week</span></td></tr>
+        <tr><td><strong>TikTok Videos</strong></td><td><span class="badge orange">3/week</span></td></tr>
+        <tr><td><strong>YouTube Shorts</strong></td><td><span class="badge orange">3/week</span></td></tr>
+        <tr><td><strong>Instagram Static Posts</strong></td><td><span class="badge green">2/week</span></td></tr>
+        <tr><td><strong>Instagram Carousel</strong></td><td><span class="badge green">1/week</span></td></tr>
+        <tr><td><strong>Instagram Stories</strong></td><td><span class="badge red">5–7/day</span></td></tr>
+        <tr><td><strong>Facebook Posts</strong></td><td><span class="badge green">2/week</span></td></tr>
+        <tr><td><strong>WhatsApp Broadcasts</strong></td><td><span class="badge gold">1–2/week</span></td></tr>
+        <tr><td><strong>Pinterest Pins</strong></td><td><span class="badge green">2/week</span></td></tr>
+        <tr><td><strong>SEO Blogs</strong></td><td><span class="badge green">2/week</span></td></tr>
+        <tr><td><strong>Influencer Shoutouts</strong></td><td><span class="badge red">5–10/month</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="h2">1.3 — Marketing Team & Resource Allocation</div>
+  <p>The specialized team responsible for executing the Lazzat marketing ecosystem.</p>
+  
+  <div class="icp-grid" style="margin-bottom: 60px;">
+    <div class="icp-card">
+      <div class="icp-header">Usama <span>— Marketer + Video Editor</span></div>
+      <div class="badge green">Existing Team</div>
+      <div class="h4">Core Responsibilities</div>
+      <ul style="font-size: 13px; margin-bottom: 0;">
+        <li>Social media marketing & campaign execution</li>
+        <li>Video editing & short-form content production</li>
+        <li>Support in monthly content planning</li>
+      </ul>
+    </div>
+    
+    <div class="icp-card">
+      <div class="icp-header">Moed <span>— Web Developer</span></div>
+      <div class="badge green">Existing Team</div>
+      <div class="h4">Core Responsibilities</div>
+      <ul style="font-size: 13px; margin-bottom: 0;">
+        <li>Website management & landing pages</li>
+        <li>Technical updates & integrations</li>
+        <li>Blog posting & maintenance</li>
+      </ul>
+    </div>
+    
+    <div class="icp-card">
+      <div class="icp-header">Ali Hamza <span>— SEO Specialist</span></div>
+      <div class="badge green">Existing Team</div>
+      <div class="h4">Core Responsibilities</div>
+      <ul style="font-size: 13px; margin-bottom: 0;">
+        <li>GMB (Google Business Profile) management</li>
+        <li>SEO strategy & keyword research</li>
+        <li>Blog & content optimization</li>
+      </ul>
+    </div>
+    
+    <div class="icp-card">
+      <div class="icp-header">Aqsa <span>— Content Writer</span></div>
+      <div class="badge green">Existing Team</div>
+      <div class="h4">Core Responsibilities</div>
+      <ul style="font-size: 13px; margin-bottom: 0;">
+        <li>Captions & social copywriting</li>
+        <li>Blog writing & WhatsApp broadcasts</li>
+        <li>Carousel copywriting & messaging</li>
+      </ul>
+    </div>
+    
+    <div class="icp-card">
+      <div class="icp-header">Ali Ahmed <span>— Team Lead</span></div>
+      <div class="badge green">Existing Team</div>
+      <div class="h4">Core Responsibilities</div>
+      <ul style="font-size: 13px; margin-bottom: 0;">
+        <li>Strategy, approvals & campaign direction</li>
+        <li>Team management & client coordination</li>
+        <li>Content calendar planning & influencers</li>
+      </ul>
+    </div>
+    
+    <div class="icp-card">
+      <div class="icp-header">Designer <span>— Graphic Designer</span></div>
+      <div class="badge green">Existing Team</div>
+      <div class="h4">Core Responsibilities</div>
+      <ul style="font-size: 13px; margin-bottom: 0;">
+        <li>Static post & carousel design</li>
+        <li>Pinterest creatives & blog banners</li>
+        <li>Motion graphics & branding assets</li>
+      </ul>
+    </div>
+    
+    <div class="icp-card">
+      <div class="icp-header">Social & Community <span>— Manager</span></div>
+      <div class="badge orange">Recommended Hire</div>
+      <div class="h4">Core Responsibilities</div>
+      <ul style="font-size: 13px; margin-bottom: 0;">
+        <li>Community engagement & DM management</li>
+        <li>Posting schedules & audience interaction</li>
+        <li>Social growth & community building</li>
+      </ul>
+    </div>
+    
+    <div class="icp-card">
+      <div class="icp-header">Content Creator <span>— Canada-Based</span></div>
+      <div class="badge orange">Recommended Hire</div>
+      <div class="h4">Core Responsibilities</div>
+      <ul style="font-size: 13px; margin-bottom: 0;">
+        <li>Localized reels & on-ground footage</li>
+        <li>Lifestyle content & influencer-style videos</li>
+        <li>Authentic restaurant storytelling</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="h2">1.4 — Monthly KPIs & Accountability</div>
+  <p>Primary success metrics and monthly deliverables for each team member to ensure campaign momentum and quality control.</p>
+  
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 160px;">Team Member</th>
+          <th style="width: 160px;">Role</th>
+          <th>Monthly Success Metrics (KPIs)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Usama</strong></td>
+          <td>Video Editor</td>
+          <td style="font-size: 13px; line-height: 1.7; color: var(--text-muted); padding: 20px 24px;">
+            • Deliver 12+ edited short-form videos/month (Reels, TikToks, YouTube Shorts)<br>
+            • Maintain minimum 90% on-time content delivery<br>
+            • Improve short-form retention rate month-over-month<br>
+            • Contribute minimum 5 trend-based content ideas/month<br>
+            • Support completion of 1 monthly content calendar<br>
+            • Maintain consistent branding/editing quality across platforms<br>
+            • Repurpose minimum 70% of content across multiple platforms
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Designer</strong></td>
+          <td>Graphic Designer</td>
+          <td style="font-size: 13px; line-height: 1.7; color: var(--text-muted); padding: 20px 24px;">
+            • Deliver all required static creatives on time: (8 posts, 4 carousels, 8 Pinterest pins, Story templates, Blog banners)<br>
+            • Maintain consistent visual branding across all assets<br>
+            • Create minimum 2 new visual template concepts/month<br>
+            • Keep revision requests below 15% of deliverables<br>
+            • Deliver creatives within agreed turnaround times
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Moed</strong></td>
+          <td>Web Developer</td>
+          <td style="font-size: 13px; line-height: 1.7; color: var(--text-muted); padding: 20px 24px;">
+            • Publish 100% of blogs within scheduled timelines<br>
+            • Maintain website uptime and technical functionality<br>
+            • Complete all landing page/website updates within deadlines<br>
+            • Ensure blog formatting and mobile responsiveness<br>
+            • Improve page speed/technical SEO incrementally<br>
+            • Resolve technical/content upload issues within 24–48 hours
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Ali Hamza</strong></td>
+          <td>SEO Specialist</td>
+          <td style="font-size: 13px; line-height: 1.7; color: var(--text-muted); padding: 20px 24px;">
+            • Deliver SEO strategy and keyword plans for all blogs/content<br>
+            • Optimize 8+ existing pages/posts monthly<br>
+            • Improve Google Business Profile activity and consistency<br>
+            • Achieve organic keyword growth month-over-month<br>
+            • Provide monthly SEO performance reporting<br>
+            • Identify minimum 10 new target keywords/month
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Aqsa</strong></td>
+          <td>Content Writer</td>
+          <td style="font-size: 13px; line-height: 1.7; color: var(--text-muted); padding: 20px 24px;">
+            • Deliver 8 SEO blog drafts monthly<br>
+            • Deliver all social captions, 4 carousel copies, and 4–8 WhatsApp broadcasts<br>
+            • Maintain content delivery deadlines and platform-specific quality<br>
+            • Produce minimum 5 strong hook concepts/month<br>
+            • Keep revisions below agreed threshold<br>
+            • Maintain consistent brand voice
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Ali Ahmed</strong></td>
+          <td>Team Lead</td>
+          <td style="font-size: 13px; line-height: 1.7; color: var(--text-muted); padding: 20px 24px;">
+            • Complete 1 monthly content calendar before month start<br>
+            • Maintain minimum 90% on-time campaign execution<br>
+            • Conduct weekly team review/planning meetings<br>
+            • Ensure all deliverables meet brand standards<br>
+            • Coordinate 5–10 influencer shoutouts/month<br>
+            • Maintain smooth client communication and approvals<br>
+            • Identify minimum 2 new campaign/content opportunities monthly
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Social Media Manager</strong></td>
+          <td>Community Manager</td>
+          <td style="font-size: 13px; line-height: 1.7; color: var(--text-muted); padding: 20px 24px;">
+            • Publish all scheduled content on time<br>
+            • Maintain daily story posting consistency<br>
+            • Respond to comments/DMs within target response time<br>
+            • Increase engagement organically month-over-month<br>
+            • Monitor trends and provide weekly engagement insights<br>
+            • Ensure consistent community management coverage
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Content Creator</strong></td>
+          <td>Canada-Based</td>
+          <td style="font-size: 13px; line-height: 1.7; color: var(--text-muted); padding: 20px 24px;">
+            • Deliver 12–16 raw content shoots/month (Restaurant footage, Lifestyle, Trends)<br>
+            • Participate in local/trending content opportunities<br>
+            • Maintain consistent raw footage quality<br>
+            • Submit content within planned timelines<br>
+            • Generate minimum 3 localized viral/trend concepts/month<br>
+            • Support influencer-style collaborations
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- ══ SECTION 10 ══ -->
+<div class="section" id="s10">
+  <div class="sec-title"><span class="sec-num">2</span> SENSITIVE DATA SHARING, COMMUNICATION & BACKUP</div>
+  
+  <div class="h2">2.1 — Interdepartmental Communication & Data Sharing</div>
+  <div class="info-box">To ensure seamless coordination and protect sensitive brand assets, all internal communication and real-time data sharing must be centralized.</div>
+  <ul>
+    <li><strong>Platform:</strong> Slack</li>
+    <li><strong>Use Case:</strong> Creative approvals, campaign coordination, daily updates, and quick data sharing between Marketing, Creative, and Management teams.</li>
+    <li><strong>Security:</strong> All sensitive marketing logins, strategy documents, and performance data are shared within private, encrypted Slack channels.</li>
+  </ul>
+
+  <div class="h2">2.2 — Centralized Backup & Asset Storage</div>
+  <ul>
+    <li><strong>Platform:</strong> Google Drive</li>
+    <li><strong>Use Case:</strong> Long-term storage for all raw content, finalized creatives, marketing reports, and legal documents.</li>
+    <li><strong>Access Control:</strong> Highly restricted "Selected People Only" access. Only Department Heads and Team Leads have full editing rights; others are granted "View Only" or specific folder access as needed.</li>
+    <li><strong>Structure:</strong> Organized by Year > Month > Campaign > Deliverable Type.</li>
+  </ul>
+</div>
+
+</div><!-- end .content-inner -->
+</div><!-- end .main -->
+
+<script>
+  // REVEAL LOGIC
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('active');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.section, .cover, .icp-card, .tbl-wrap').forEach(el => {
+    el.classList.add('reveal');
+    revealObserver.observe(el);
+  });
+
+  // Highlight active nav link on scroll
+  const sections = Array.from(document.querySelectorAll('.section[id], .cover[id]')).filter(s => {
+    return window.getComputedStyle(s).display !== 'none';
+  });
+  const navLinks = document.querySelectorAll('.toc-nav a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 80) current = s.id; });
+    navLinks.forEach(a => { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+  });
+
+  // TODO LIST SCRIPT
+  function toggleMenu() {
+    const nav = document.getElementById('mobileNav');
+    const btn = document.getElementById('menuToggle');
+    nav.classList.toggle('active');
+    btn.innerText = nav.classList.contains('active') ? '✕' : '☰';
+  }
+  document.getElementById('menuToggle').addEventListener('click', toggleMenu);
+
+  const CATS = [
+    {
+      icon: "🏗️",
+      title: "Brand foundation — before anything goes live",
+      tasks: [
+        "Define and lock brand kit document : color palette (deep reds, charcoal, gold), tone of voice, photography style (dark, moody, fire-lit)",
+        "Make sure every team member knows the core USP and tagline <a href='usp-section.html' class='task-link'>View USP →</a>"
+      ]
+    },
+    {
+      icon: "📱",
+      title: "Social media presence",
+      tasks: [
+        "Establish Instagram as the brand hub — bio complete, booking link in bio, 9 hero posts ready before launch",
+        "Establish TikTok as the primary organic discovery engine — account live",
+        "Set up Facebook Page and community group presence",
+        "Create YouTube channel to repurpose TikToks as Shorts",
+        "Set up Pinterest for passive food image traffic and long-tail SEO"
+      ]
+    },
+    {
+      icon: "📍",
+      title: "Listings & discovery platforms — own your presence everywhere",
+      tasks: [
+        "Google Business Profile: claim, verify, fill everything, 50+ photos, categories, Q&As pre-loaded",
+        "Yelp, TripAdvisor complete listings with photos and full menu on both",
+        "Delivery platforms: launch on UberEats, SkipTheDishes, and DoorDash with professional photos",
+        "Halal-specific apps (HalalTrip, Zabihah): submit and claim listings"
+      ]
+    },
+    {
+      icon: "🌐",
+      title: "Website & SEO",
+      tasks: [
+        "Launch lazzat.ca: mobile load under 2.5s, menu as HTML (not PDF), reservation widget, ordering button above fold",
+        "Set up local SEO basics: schema markup, consistent NAP across all listings, keyword-rich page titles",
+        "Establish that the food menu and ordering is working and established through website",
+        "Blog section added on the website"
+      ]
+    },
+    {
+      icon: "⭐",
+      title: "Reviews & reputation",
+      tasks: [
+        "Set up in-restaurant review collection: QR codes on tables, receipt inserts, staff verbal ask script",
+        "Set up post-visit review prompts: WiFi login email capture, WhatsApp follow-up 24hrs after visit",
+        "Establish a response protocol — every review responded to, fast (2hrs for 1–2 stars, 24hrs for 5 stars)",
+        "Have a solid reviews management system software like hootsuite reviews management software to manage all platform reviews under one platform"
+      ]
+    },
+    {
+      icon: "🔄",
+      title: "Customer retention ecosystem",
+      tasks: [
+        "Set up WhatsApp Business broadcasts: weekly weekend specials every Wednesday, seasonal cultural messages"
+      ]
+    },
+    {
+      icon: "🚀",
+      title: "Active Execution",
+      tasks: [
+        "Execute launch plan <a href='launch-plan.html' class='task-link'>View Launch Plan →</a>",
+        "Continue organic posting as mentioned in the social media playbook <a href='social-media-strategy.html' class='task-link'>Preview Playbook →</a>",
+        "Rollout the 25-post menu-focused content calendar <a href='menu-content-calendar.html' class='task-link'>View Calendar →</a>"
+      ]
+    }
+  ];
+
+  const KEY = "lazzat_master_todo";
+  let done = {};
+
+  try { const s = localStorage.getItem(KEY); if (s) done = JSON.parse(s); } catch(e){}
+
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(done)); } catch(e){} }
+
+  function allTasks() { return CATS.flatMap((c,ci) => c.tasks.map((_,ti) => ci+"-"+ti)); }
+
+  function updateStats() {
+    const all = allTasks();
+    const total = all.length;
+    const d = all.filter(id => done[id]).length;
+    const pct = total ? Math.round(d/total*100) : 0;
+    document.getElementById("total-count").textContent = total;
+    document.getElementById("done-count").textContent = d;
+    document.getElementById("pct").textContent = pct+"%";
+    document.getElementById("prog-label").textContent = d+" of "+total+" items completed";
+    document.getElementById("prog-fill").style.width = pct+"%";
+  }
+
+  function render() {
+    const container = document.getElementById("todo-list");
+    let html = "";
+    CATS.forEach((cat, ci) => {
+      const total = cat.tasks.length;
+      const d = cat.tasks.filter((_,ti) => done[ci+"-"+ti]).length;
+      html += `<div class="todo-category">
+        <div class="todo-cat-header">
+          <span class="todo-cat-icon">${cat.icon}</span>
+          <span class="todo-cat-title">${cat.title}</span>
+          <span class="todo-cat-count">${d}/${total}</span>
+        </div>`;
+      cat.tasks.forEach((task, ti) => {
+        const id = ci+"-"+ti;
+        const isDone = !!done[id];
+        html += `<div class="todo-task-row${isDone?' done':''}" data-id="${id}">
+          <div class="todo-checkbox${isDone?' checked':''}"></div>
+          <div class="todo-task-text">${task}</div>
+        </div>`;
+      });
+      html += "</div>";
+    });
+    container.innerHTML = html;
+    container.querySelectorAll(".todo-task-row").forEach(row => {
+      row.addEventListener("click", (e) => {
+        // If user clicked a link button, let it navigate — don't toggle
+        if (e.target.closest('a')) return;
+        const id = row.dataset.id;
+        done[id] = !done[id];
+        if (!done[id]) delete done[id];
+        save(); updateStats(); render();
+      });
+    });
+  }
+
+  document.getElementById("reset").addEventListener("click", () => { 
+    if(confirm("Are you sure you want to reset all progress?")) {
+      done = {}; save(); updateStats(); render(); 
+    }
+  });
+
+  updateStats();
+  render();
+
+  // Scroll spy for mobile nav
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
+    document.querySelectorAll('.mobile-nav a').forEach(a => { 
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current); 
+    });
+  });
+</script>
+</body>
+</html>
