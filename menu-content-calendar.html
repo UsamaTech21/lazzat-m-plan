@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lazzat — 25-Post Content Calendar</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -70,7 +72,7 @@
   .card-tag::after { content: "↓"; font-size: 14px; }
   
   .detail-box { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--color-border-tertiary); display: none; animation: slideDown 0.3s ease-out; }
-  .card.open { border-color: var(--accent); ring: 2px solid var(--accent-soft); }
+  .card.open { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
   .card.open .card-tag { display: none; }
   .card.open .detail-box { display: block; }
   

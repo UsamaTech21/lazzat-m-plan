@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lazzat Launch Campaign — 30-Day Blueprint</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -13,11 +15,15 @@ html { scroll-behavior: smooth; }
 
 /* REVEAL ANIMATIONS */
 .reveal {
+  opacity: 1;
+  transform: none;
+}
+html.js .reveal {
   opacity: 0;
   transform: translateY(30px);
-  transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-.reveal.active {
+html.js .reveal.active {
   opacity: 1;
   transform: translateY(0);
 }
@@ -460,19 +466,21 @@ body {
 </div>
 
 <script>
-  // REVEAL LOGIC
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('active');
-      }
+  document.documentElement.classList.add('js');
+  const revealTargets = document.querySelectorAll('.section, .hero, .card, .stat-card, .creative-card');
+  if ('IntersectionObserver' in window) {
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('active');
+      });
+    }, { threshold: 0.1 });
+    revealTargets.forEach(el => {
+      el.classList.add('reveal');
+      revealObserver.observe(el);
     });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('.section, .hero, .card, .stat-card, .creative-card').forEach(el => {
-    el.classList.add('reveal');
-    revealObserver.observe(el);
-  });
+  } else {
+    revealTargets.forEach(el => el.classList.add('reveal', 'active'));
+  }
 </script>
 
 </body>
