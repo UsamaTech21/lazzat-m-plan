@@ -10,23 +10,16 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="responsive.css">
+<script>
+  /* Mobile: land on first section immediately — avoids blank first paint */
+  (function () {
+    if (!window.location.hash && window.matchMedia('(max-width: 1000px)').matches) {
+      window.location.replace(window.location.pathname + window.location.search + '#s9');
+    }
+  })();
+</script>
 <style>
   html { scroll-behavior: smooth; }
-  
-  /* REVEAL ANIMATIONS — visible by default; animate only when JS runs */
-  .reveal {
-    opacity: 1;
-    transform: none;
-  }
-  html.js .reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-  }
-  html.js .reveal.active {
-    opacity: 1;
-    transform: translateY(0);
-  }
 
   :root {
     --bg: #fdfcfb;
@@ -240,14 +233,15 @@
   .mobile-nav a.active { color: #fff; }
 
   @media (max-width: 1000px) {
+    html { scroll-padding-top: 72px; }
     .toc-nav { display: none; }
     .mobile-header { display: flex; }
-    .main { margin-left: 0; padding-top: 64px; }
+    .main { margin-left: 0; padding-top: 64px; background: var(--bg); }
     .content-inner { padding: 0 24px 80px; }
     .cover .brand { font-size: 60px; }
     .icp-grid { grid-template-columns: 1fr; }
     .todo-stats { grid-template-columns: 1fr; }
-    .section { padding: 64px 0 40px; min-height: auto; }
+    .section { padding: 24px 0 40px; min-height: auto; justify-content: flex-start; }
   }
 
   @media (max-width: 600px) {
@@ -255,7 +249,7 @@
     .cover .brand { font-size: 40px; }
     .h2 { font-size: 22px; }
     .sec-title { margin-bottom: 24px; letter-spacing: 2px; }
-    .section { padding: 48px 0 32px; min-height: auto; }
+    .section { padding: 16px 0 32px; min-height: auto; }
     .tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
     .icp-card { padding: 20px; }
     .icp-row { flex-direction: column; gap: 4px; }
@@ -267,6 +261,9 @@
     .task-link { display: inline-block; margin: 8px 0 0; margin-left: 0 !important; }
     .highlight, .info-box { padding: 16px 20px; font-size: 15px; }
     th, td { padding: 10px 12px; font-size: 12px; }
+    ul { padding-left: 0; }
+    ul li { padding-left: 22px; }
+    ul li::before { left: 4px; top: 16px; width: 8px; height: 2px; background: var(--accent); }
   }
 
   /* CUSTOM SCROLLBAR */
@@ -826,24 +823,6 @@
 </div><!-- end .main -->
 
 <script>
-  document.documentElement.classList.add('js');
-
-  // REVEAL LOGIC (fallback: show content if IntersectionObserver unavailable)
-  const revealTargets = document.querySelectorAll('.section, .cover, .icp-card, .tbl-wrap');
-  if ('IntersectionObserver' in window) {
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('active');
-      });
-    }, { threshold: 0.1 });
-    revealTargets.forEach(el => {
-      el.classList.add('reveal');
-      revealObserver.observe(el);
-    });
-  } else {
-    revealTargets.forEach(el => el.classList.add('reveal', 'active'));
-  }
-
   // Highlight active nav link on scroll
   const sections = Array.from(document.querySelectorAll('.section[id], .cover[id]')).filter(s => {
     return window.getComputedStyle(s).display !== 'none';
@@ -927,7 +906,7 @@
       tasks: [
         "Execute launch plan <a href='launch-plan.html' class='task-link'>View Launch Plan →</a>",
         "Continue organic posting as mentioned in the social media playbook <a href='social-media-strategy.html' class='task-link'>Preview Playbook →</a>",
-        "Rollout the 25-post menu-focused content calendar <a href='menu-content-calendar.html' class='task-link'>View Calendar →</a>"
+        "Rollout the 25-post menu-focused content calendar <a href='https://docs.google.com/spreadsheets/d/1jmFslA_GMkvpUL0WMEDsuFJmWy2-z5Kw7siyW0etoB0/edit?usp=sharing' class='task-link' target='_blank' rel='noopener noreferrer'>View Calendar →</a>"
       ]
     }
   ];

@@ -13,21 +13,6 @@
 <style>
 html { scroll-behavior: smooth; }
 
-/* REVEAL ANIMATIONS */
-.reveal {
-  opacity: 1;
-  transform: none;
-}
-html.js .reveal {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-html.js .reveal.active {
-  opacity: 1;
-  transform: translateY(0);
-}
-
 :root {
   --accent: #b5341a;
   --gold: #c8960c;
@@ -464,24 +449,6 @@ body {
   </section>
 
 </div>
-
-<script>
-  document.documentElement.classList.add('js');
-  const revealTargets = document.querySelectorAll('.section, .hero, .card, .stat-card, .creative-card');
-  if ('IntersectionObserver' in window) {
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('active');
-      });
-    }, { threshold: 0.1 });
-    revealTargets.forEach(el => {
-      el.classList.add('reveal');
-      revealObserver.observe(el);
-    });
-  } else {
-    revealTargets.forEach(el => el.classList.add('reveal', 'active'));
-  }
-</script>
 
 </body>
 </html>
